@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Rx'; 
+import { Http, Headers, Response, RequestOptions } from '@angular/http';
+
+
 @Injectable()
 export class UploadService {
   progress$: any;
@@ -16,16 +19,21 @@ export class UploadService {
     return Observable.create(observer => {
       const formData: FormData = new FormData(),
         xhr: XMLHttpRequest = new XMLHttpRequest();
+      
+        
+    // if user is logged in, append token to header
+   
       console.log(data.remarks, 'fiules');
       const length: any = files.length;
       for (let i = 0; i < files.length; i++) {
         formData.append('file', files[i], files[i].name);
         formData.append('length', length);
       }
+     
       xhr.onreadystatechange = () => {
         if (xhr.readyState === 4) {
           if (xhr.status === 200) {
-            observer.next(JSON.parse(xhr.response));
+             observer.next(1);
             observer.complete();
           } else {
             observer.error(xhr.response);
@@ -36,9 +44,11 @@ export class UploadService {
       xhr.upload.onprogress = event => {
         this.progress = Math.round(event.loaded / event.total * 100);
 
-        this.progressObserver.next(this.progress);
+       // this.progressObserver.next(1);
       };
       xhr.open('POST', url, true);
+      xhr.setRequestHeader("token", localStorage.getItem('token'));
+      xhr.setRequestHeader("uploadpath", 'users');
       const serverFileName = xhr.send(formData);
       return serverFileName;
     });

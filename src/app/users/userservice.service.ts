@@ -43,14 +43,24 @@ export class UserserviceService {
     return this.callApi(Url.API.USERINFO_UPDATE_VIMAGE,'post',value)
   }
 
+  regViaemail(value){
+    return this.callApi(Url.API.regViaemail,'post',value)
+  }
+
    callApi(url: string, method: string, body: Object): Observable<any> {
-     console.log(`Http call - url: ${url}, body: ${JSON.stringify(body)}`);
+     console.log(`Http call - url: ${url},  `);
  
      const headers = new Headers({ 'Content-Type': 'application/json' });
         headers.append('Accept', 'application/json');
    
      headers.append('Access-Control-Allow-Origin', 'http://192.168.0.110:8081');
      headers.append('Access-Control-Allow-Credentials', 'true');
+     if (localStorage.getItem('token')) {
+        
+      headers.append(
+        'token', localStorage.getItem('token')
+      );
+    }
    
      const options = new RequestOptions({ headers: headers });
   
@@ -58,7 +68,12 @@ export class UserserviceService {
        case 'post':
          return this._http
            .post(url, body, options)
-           .pipe(map((res:Response)=>res.json()));
+           .pipe(map((res:Response)=>res.json())).catch((err) => {
+                               
+            // Do messaging anREd error handling here
+           
+            return Observable.throw(err._body)
+        });
        case 'get':
          return this._http
            .get(url, options)

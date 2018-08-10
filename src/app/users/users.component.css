@@ -28,3 +28,15 @@ a{
   margin-right: 0px;
   width: 100%;
 }
+
+.example-container1 > mat-form-field {
+  width: 100%;
+  margin-left: 0px;
+  /* padding: 0% 25% 0% 25% ; */
+}
+
+.card1 {
+    width: 50% !important; 
+    margin-left: 25% !important;
+    margin-right: 25% !important;
+}

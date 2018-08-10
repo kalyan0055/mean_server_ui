@@ -18,6 +18,7 @@ import { Url } from "./common/url";
   providedIn: 'root'
 })
 export class UsersService {
+ 
   reg_user=[];
   userlogin=false;
   userdata:any=[];
@@ -54,6 +55,13 @@ export class UsersService {
 
   userinfo_update_vimage(value){
     return this.callApi(Url.API.USERINFO_UPDATE_VIMAGE,'post',value)
+  }
+  regViaemail(arg0: any): any {
+    return this.callApi(Url.API.regViaemail,'post',arg0)
+  }
+
+  fileupload(value){
+    return this.callApi(Url.API.FILE_UPLOAD,'post',value)
   }
 
    callApi(url: string, method: string, body: Object): Observable<any> {

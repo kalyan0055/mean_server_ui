@@ -27,17 +27,24 @@ export class UserloginComponent implements OnInit {
     this.router.navigate(['userlogin'])
   }
   onSubmit(){
+    console.log('tttttsfs');
+    
     this.Auth.login(this.model).subscribe((res)=>{
+      console.log(res);
+      
       if(res.success){
+        console.log(res.token,'tttttttttttttt');
+        
         let  msg = 'Welcome -'+ (res.data.username).toUpperCase();
         this.US.userlogin = true;
         localStorage.setItem('name',res.data.username)
         localStorage.setItem('email',res.data.email)
-       
+        localStorage.setItem('token',res.token)
         this.US.userdata = res.data;
         this.toaster.success(msg,'Success');
         this.router.navigate(['users']);
-      }else{
+      }
+      else{
         this.toaster.error(res.message,'Error');
       }
     })
@@ -46,4 +53,6 @@ export class UserloginComponent implements OnInit {
   forgetpassword(){
 
   }
+
+ 
 }

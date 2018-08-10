@@ -38,7 +38,7 @@ import {   MatAutocompleteModule,
   import {ReactiveFormsModule,FormsModule} from '@angular/forms'
  
 import {HttpModule} from '@angular/http';
- 
+import {DataTableModule  } from "angular2-datatable";
 // import { ForgetPasswordComponent } from './common/forget-password/forget-password.component';
 import { DatatablesPipe } from './common/datatables.pipe';
 import { ToastrModule } from 'ngx-toastr';
@@ -48,11 +48,17 @@ import {approutes } from "./common/routings";
 import {UserloginComponent} from './login/userlogin.component';
 import { AuthGuard } from './common/auth.guard';
 import {UsersComponent  } from "./users/users.component";
+import { EmailAuthComponent } from './email-auth/email-auth.component';
+import { HeaderComponent } from './common/header/header.component';
+
 @NgModule({
   declarations: [
     AppComponent,
     UserloginComponent,
     UsersComponent,
+    EmailAuthComponent,
+    DatatablesPipe,
+    HeaderComponent
     
   ],
   imports: [
@@ -92,7 +98,8 @@ import {UsersComponent  } from "./users/users.component";
     ReactiveFormsModule,FormsModule,
     HttpModule, 
     ToastrModule.forRoot(),
-    approutes
+    approutes,
+    DataTableModule
   ],
   providers: [UploadService,AuthGuard],
   bootstrap: [AppComponent]
