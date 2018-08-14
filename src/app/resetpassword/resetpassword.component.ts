@@ -1,11 +1,11 @@
 // import { Component, OnInit } from '@angular/core';
 
 // @Component({
-//   selector: 'app-email-auth',
-//   templateUrl: './email-auth.component.html',
-//   styleUrls: ['./email-auth.component.css']
+//   selector: 'app-resetpassword',
+//   templateUrl: './resetpassword.component.html',
+//   styleUrls: ['./resetpassword.component.css']
 // })
-// export class EmailAuthComponent implements OnInit {
+// export class ResetpasswordComponent implements OnInit {
 
 //   constructor() { }
 
@@ -26,11 +26,11 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from "@angular/common";
 import { RegistrationValidator } from '../common/password-validator';
 @Component({
-  selector: 'app-email-auth',
-  templateUrl: './email-auth.component.html',
-  styleUrls: ['./email-auth.component.css']
+  selector: 'app-resetpassword',
+  templateUrl: './resetpassword.component.html',
+  styleUrls: ['./resetpassword.component.css']
 })
-export class EmailAuthComponent implements OnInit, OnDestroy {
+export class ResetpasswordComponent implements OnInit {
   model: any = { password: '', confpassword: '' }
   name: any;
   msg;
@@ -65,10 +65,9 @@ export class EmailAuthComponent implements OnInit, OnDestroy {
   ngOnInit() {
     localStorage.clear();
     this.sub = this.route.params.subscribe(params => {
-      this.id = params.id1// (+) converts string 'id' to a number
-      this.username =params.id2;
-      this.otp = params.id3
-      this.location.replaceState('authd');
+      this.username = params.id1// (+) converts string 'id' to a number
+      this.otp = params.id2
+      this.location.replaceState('reset');
       // Decode the String
  
      
@@ -90,20 +89,17 @@ export class EmailAuthComponent implements OnInit, OnDestroy {
     console.log(this.registrationFormGroup.value.passwordFormGroup);
     let body = {
       username: this.username,
-      password: this.registrationFormGroup.value.passwordFormGroup.password,
-      conf_password: this.registrationFormGroup.value.passwordFormGroup.repeatPassword,
-      isverifyotp: true,
+      newPassword: this.registrationFormGroup.value.passwordFormGroup.password,
+      verifyPassword: this.registrationFormGroup.value.passwordFormGroup.repeatPassword,
       otp:this.otp
-    }
-    this.Auth.confirmRegistration(body).subscribe((res) => {
-      if (res.success) {
+    } 
+    this.Auth.resetPassword(body).subscribe((res) => {
+      console.log(res,'oooooooooooooooo');
+      
+      if (res.status) {
         console.log(res.token, 'tttttttttttttt');
-
         let msg = 'Welcome -' + (res.data.username).toUpperCase();
         this.US.userlogin = true;
-        localStorage.setItem('name', res.data.username)
-        localStorage.setItem('email', res.data.email)
-        localStorage.setItem('token', res.token)
         this.US.userdata = res.data;
         this.toaster.success(msg, 'Success');
         this.router.navigate(['users']);
@@ -116,6 +112,4 @@ export class EmailAuthComponent implements OnInit, OnDestroy {
   forgetpassword() {
 
   }
-
-
 }

@@ -1,7 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-
 import { AppComponent } from './app.component';
 import {   MatAutocompleteModule,
   MatButtonModule,
@@ -50,6 +49,8 @@ import { AuthGuard } from './common/auth.guard';
 import {UsersComponent  } from "./users/users.component";
 import { EmailAuthComponent } from './email-auth/email-auth.component';
 import { HeaderComponent } from './common/header/header.component';
+import { SidenavComponent } from './common/sidenav/sidenav.component';
+import { ResetpasswordComponent } from './resetpassword/resetpassword.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,9 @@ import { HeaderComponent } from './common/header/header.component';
     UsersComponent,
     EmailAuthComponent,
     DatatablesPipe,
-    HeaderComponent
+    HeaderComponent,
+    SidenavComponent,
+    ResetpasswordComponent
     
   ],
   imports: [

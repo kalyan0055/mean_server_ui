@@ -32,7 +32,7 @@ export class UserloginComponent implements OnInit {
     this.Auth.login(this.model).subscribe((res)=>{
       console.log(res);
       
-      if(res.success){
+      if(res.success || res.status){
         console.log(res.token,'tttttttttttttt');
         
         let  msg = 'Welcome -'+ (res.data.username).toUpperCase();

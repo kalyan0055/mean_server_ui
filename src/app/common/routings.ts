@@ -3,6 +3,8 @@ import {UserloginComponent} from '../login/userlogin.component';
 import { AuthGuard } from '../common/auth.guard';
 import {UsersComponent  } from "../users/users.component";
 import { EmailAuthComponent } from '../email-auth/email-auth.component';
+import { ResetpasswordComponent } from '../resetpassword/resetpassword.component';
+
 const approuts : Routes = [
     {
         path:'', component:UserloginComponent
@@ -13,7 +15,10 @@ const approuts : Routes = [
     {
         path:'users', component:UsersComponent,canActivate:[AuthGuard]
     },
-   { path: 'confirm/:id1/:id2/:id3',  component: EmailAuthComponent},
+    {   path: 'confirm/:id1/:id2/:id3',  component: EmailAuthComponent
+    },
+    {   path: 'reset/:id1/:id2/:id3',  component: ResetpasswordComponent
+    },
 
     { path: '', redirectTo: '', pathMatch: 'full' },
     { path: '**', redirectTo: 'users', pathMatch: 'full' }

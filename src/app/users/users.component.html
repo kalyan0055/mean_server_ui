@@ -1,326 +1,336 @@
+<app-header>
 
+</app-header>
+<div class="row">
+  <div class="col-md-2 " style="background-color: #c0daf3!important;" [ngClass]="{'divwidth1':nvipani,'divwidth':!nvipani}">
+    <mat-nav-list>
+      <a mat-list-item routerLink="/first-page">Admin Users</a>
+    </mat-nav-list>
+  </div>
 
-<div class="grid-container">
-    <app-header></app-header>
-  <h1 class="mat-h1">Dashboard</h1>
-  <div class="col-md-12" [ngClass]="(nvipani)?'card1':'card'">
-    <div class="card">
-      <div class="card-header ">
-        <span>{{(!nvipani)?'List of Admin Users':'Admin User Registration'}}</span>
-        <!-- <button mat-raised-button (click)="register()" data-toggle="modal" data-target=".bd-example-modal-lg" class="float-right"
-          color="accent">Register</button> -->
-        <button mat-raised-button (click)="nvi_register()"  class="float-right"
-          color="accent" *ngIf="!nvipani">Register with Nvipani</button>
-          <button mat-raised-button (click)="back()"  class="float-right"
-          color="accent" *ngIf="nvipani">Back</button>
-        <!-- <a class="btn btn-sm btn-danger float-right">float-right</a> -->
-      </div>
-      <div class="card-body" *ngIf="!nvipani" >
+  <div class="col-md-10 main">
+    <!-- <div class="grid-container"> -->
+    <!-- <h1 class="mat-h1">Dashboard</h1> -->
+    <div class="" [ngClass]="(nvipani)?'card1':'card'">
+      <div class="card">
+        <div class="card-header ">
+          <span>{{(!nvipani)?'List of Admin Users':'Admin User Registration'}}</span>
+          <!-- <button mat-raised-button (click)="register()" data-toggle="modal" data-target=".bd-example-modal-lg" class="float-right"
+      color="accent">Register</button> -->
+          <button mat-raised-button (click)="nvi_register()" class="float-right btn btn-sm" color="accent" *ngIf="!nvipani">
+            <i class="fa fa-plus"></i>
+            <i class="fa fa-user"></i>
+          </button>
+             <button mat-raised-button (click)="back()" class="float-right" color="accent" *ngIf="nvipani">Back</button>
+          <!-- <a class="btn btn-sm btn-danger float-right">float-right</a> -->
+        </div>
+        <div class="card-body" *ngIf="!nvipani">
           <div class="row ">
-              <div class="col-md-3 float-right">
-                <div class="input-group input-group-sm">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text">
-                      <i class="fa fa-search"></i>
-                    </span>
-                  </div>
-                  <input class="form-control-sm form-control" placeholder="Search" type="text" [(ngModel)]="filterQuery" autocomplete="off"
-                    name="filter">
+            <div class="col-md-3 float-right">
+              <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-search"></i>
+                  </span>
                 </div>
+                <input class="form-control-sm form-control" placeholder="Search" type="text" [(ngModel)]="filterQuery" autocomplete="off"
+                  name="filter">
               </div>
             </div>
-        <!-- <table class="table table-bordered"> -->
-            <table class="table table-sm table-inverse table-bordered" [mfData]="tabaledata | dataFilter : filterQuery" #mf="mfDataTable"
+          </div>
+          <!-- <table class="table table-bordered"> -->
+          <table class="table table-sm table-inverse table-bordered" [mfData]="tabaledata | dataFilter : filterQuery" #mf="mfDataTable"
             [mfRowsOnPage]="rowsOnPage" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
-       
-              <thead>
-                  <tr>
-                    <th style="width: 5%">
-                      <mfDefaultSorter by="name">S.No
-  
-                      </mfDefaultSorter>
-                    </th>
-                    <th style="width: 20%">
-                      <mfDefaultSorter by="username">Full Name </mfDefaultSorter>
-                    </th>
-                    <th style="width: 10%">
-                      <mfDefaultSorter by="email">Email </mfDefaultSorter>
-                    </th>
-  
-                    <th style="width: 10%">
-                      <mfDefaultSorter by="mobile">Mobile </mfDefaultSorter>
-                    </th>
-                    <th style="width: 10%">
-                        <mfDefaultSorter by="status">Status </mfDefaultSorter>
-                      </th>
-                    <th style="width: 10%">
-                      <mfDefaultSorter by="">Options </mfDefaultSorter>
-                    </th>
-                  </tr>
-                </thead>
-             
-          <tbody>
-            <tr *ngFor="let t of mf.data; let i=index;">
-              <th scope="row">{{i+1}}</th>
-              <td>{{t.username}}</td>
-              <td>{{t.email}}</td>
-              <td>{{t.mobile}}</td>
-              <td>{{t.status}}</td>
-              <td>
-                <a   class="btn btn-sm btn-success" style="
-                      margin-right: 5px;" data-toggle="modal" data-target=".delete">
-                  <i class="far fa-eye"></i>
-                </a>
-                 
-                <a (click)="delete(t)" class="btn btn-sm btn-danger">
-                  <i class="fas fa-trash"></i>  
-                </a>
-            
-              </td>
 
-            </tr>
-            <tr>
+            <thead>
+              <tr>
+                <th style="width: 5%">
+                  <mfDefaultSorter by="name">S.No
 
-            </tr>
+                  </mfDefaultSorter>
+                </th>
+                <th style="width: 20%">
+                  <mfDefaultSorter by="username">Full Name </mfDefaultSorter>
+                </th>
+                <th style="width: 10%">
+                  <mfDefaultSorter by="email">Email </mfDefaultSorter>
+                </th>
 
-          </tbody>
-          <tbody *ngIf="loading">
+                <th style="width: 10%">
+                  <mfDefaultSorter by="mobile">Mobile </mfDefaultSorter>
+                </th>
+                <th style="width: 10%">
+                  <mfDefaultSorter by="status">Status </mfDefaultSorter>
+                </th>
+                <th style="width: 10%">
+                  <mfDefaultSorter by="">Options </mfDefaultSorter>
+                </th>
+                
+              </tr>
+            </thead>
+
+            <tbody *ngFor="let t of mf.data; let i=index; let k=index;">
+              <tr [ngClass]="{'deletecolor':t.deleted}">
+                <th scope="row">{{tabaledata.indexOf(t)+1}}</th>
+                <td>{{t.username}}</td>
+                <td>{{t.email}}</td>
+                <td>{{t.mobile}}</td>
+                <td>{{t.status}}</td>
+                <td>
+                  <button [disabled]="t.disabled" class="btn btn-sm btn-success" (click)="disable_popup(t)"  data-toggle="modal"
+                    data-target=".disable">
+                    <i class="fas fa-user-lock"></i>
+                  </button>
+
+                  <a [ngClass]="{'unselectable':t.disabled}" (click)="delete_popup(t)" data-toggle="modal" style="margin-right: 5px; margin-left: 5px;" data-target=".delete" class="btn btn-sm btn-danger">
+                    <i class="fas fa-trash"></i>
+                  </a>
+                  <a *ngIf="t.resetPasswordToken" [ngClass]="{'unselectable':t.disabled}" (click)="reset_popup(t)"  data-toggle="modal" data-target=".reset" class="btn btn-sm btn-warning">
+                      <i class="fas fa-unlock-alt"></i>
+                  </a>
+                  <a *ngIf="!t.resetPasswordToken" (click)="reset_popup(t)"  data-toggle="modal" data-target=".reset" class="btn btn-sm btn-warning">
+                      <i class="fas fa-lock"></i>
+                  </a>
+                </td>
+              
+              </tr>
+              <tr>
+
+              </tr>
+
+            </tbody>
+            <tbody *ngIf="loading">
               <tr>
                 <td class="text-center" colspan="13">
                   <i class="fa fa-spinner fa-spin fa-2x"></i>
                 </td>
               </tr>
             </tbody>
-             
-        </table>
-         
-      </div>
-      <div class="card-body" *ngIf="nvipani">
-        <form method="POST" [formGroup]="REG_FORM1">
-          <div class="example-container1">
-            <mat-form-field>
-              <input matInput placeholder="Username " type="email" formControlName="username" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" (input)="onSearchChange($event.target.value)"   required>
-              <mat-error *ngIf="REG_FORM.controls['username'].invalid">{{getErrorMessage()}}</mat-error>
-            </mat-form-field>
-            <p *ngIf="emailerror">Accepts only nvipani mails.. ex: nvipani@nivpani.com</p>
-            <div class="row">
-              <div class="col-md-6">
-              <button type="submit" (click)="nvi_onSubmit()"  class="float-right btn btn-primary" [disabled]="!REG_FORM1.valid || (!test)">Register</button>
-            </div>
-          </div>
-          </div>
-        </form>
-      </div>
-    </div>
+            <tfoot *ngIf="mf.data.length != 0 ">
+              <tr>
+                <td colspan="7">
+                  <mfBootstrapPaginator [rowsOnPageSet]="[10,15,25,50]"></mfBootstrapPaginator>
+                </td>
+              </tr>
+            </tfoot>
 
-  </div>
-  <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Large modal</button> -->
-  <!-- Register Form POPUP-->
-  <div  class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Welcome </h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+          </table>
+
         </div>
-        <div class="col-md-12 custome">
-          <div class="card text-center">
-            <div class="card-header  card bg-primary text-white">
-              Register Here
+        <div class="card-body" *ngIf="nvipani">
+          <form method="POST" [formGroup]="REG_FORM1">
+            <div class="example-container1">
+              <mat-form-field>
+                <input matInput placeholder="Username " type="email" formControlName="username" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+                  (input)="onSearchChange($event.target.value)" required>
+                <mat-error *ngIf="REG_FORM.controls['username'].invalid">{{getErrorMessage()}}</mat-error>
+              </mat-form-field>
+              <p *ngIf="emailerror">Accepts only nvipani mails.. ex: nvipani@nivpani.com</p>
+              <div class="row">
+                <div class="col-md-6">
+                  <button type="submit" (click)="nvi_onSubmit()" class="float-right btn btn-primary" [disabled]="!REG_FORM1.valid || (!test)">Register</button>
+                </div>
+              </div>
             </div>
-            <div class="card-body">
-              <form method="POST" [formGroup]="REG_FORM">
-                <div class="example-container">
-                  <mat-form-field>
-                    <input matInput placeholder="Username " formControlName="username"   required>
-                  </mat-form-field>
-                  <mat-form-field>
-                    <input matInput placeholder="Enter your email" formControlName="email" required>
-                    <mat-error *ngIf="REG_FORM.controls['email'].invalid">{{getErrorMessage()}}</mat-error>
-                  </mat-form-field>
-                  <mat-form-field>
-                    <input matInput placeholder="Mobile No" minlength="10" maxlength="10" formControlName="mobile" pattern="[0-9]*" required>
-                    <mat-error *ngIf="!REG_FORM.controls['mobile'].valid || !REG_FORM.controls['mobile'].pristine">
-                      <mat-error *ngIf="REG_FORM.controls['mobile'].hasError('minlength')">Mobile should be 10digit</mat-error>
-                      <mat-error *ngIf="REG_FORM.controls['mobile'].hasError('required')">Mobile is required</mat-error>
-                      <mat-error *ngIf="REG_FORM.controls['mobile'].hasError('pattern')">Mobile numberr should be only numbers</mat-error>
-                    </mat-error>
-                  </mat-form-field>
-                  <mat-form-field>
-                    <input matInput placeholder="Password" [type]="hide ? 'password' : 'text'" formControlName="password">
-                    <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
-                  </mat-form-field>
-                  <mat-form-field>
-                    <input matInput placeholder="Confirm password" [type]="hide ? 'password' : 'text'" formControlName="conf_password">
-                    <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
-               
-                  </mat-form-field>
-                  <div class="row">
-                    <div class="col-md-7">
-                    <button type="submit" (click)="onSubmit()" data-dismiss="modal" class="float-right btn btn-primary" [disabled]="!REG_FORM.valid">Register</button>
-                  </div>
-                </div>
-                </div>
-              </form>
+          </form>
+        </div>
+      </div>
 
+    </div>
+    <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Large modal</button> -->
+    <!-- Register Form POPUP-->
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Welcome </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="col-md-12 custome">
+            <div class="card text-center">
+              <div class="card-header  card bg-primary text-white">
+                Register Here
+              </div>
+              <div class="card-body">
+                <form method="POST" [formGroup]="REG_FORM">
+                  <div class="example-container">
+                    <mat-form-field>
+                      <input matInput placeholder="Username " formControlName="username" required>
+                    </mat-form-field>
+                    <mat-form-field>
+                      <input matInput placeholder="Enter your email" formControlName="email" required>
+                      <mat-error *ngIf="REG_FORM.controls['email'].invalid">{{getErrorMessage()}}</mat-error>
+                    </mat-form-field>
+                    <mat-form-field>
+                      <input matInput placeholder="Mobile No" minlength="10" maxlength="10" formControlName="mobile" pattern="[0-9]*" required>
+                      <mat-error *ngIf="!REG_FORM.controls['mobile'].valid || !REG_FORM.controls['mobile'].pristine">
+                        <mat-error *ngIf="REG_FORM.controls['mobile'].hasError('minlength')">Mobile should be 10digit</mat-error>
+                        <mat-error *ngIf="REG_FORM.controls['mobile'].hasError('required')">Mobile is required</mat-error>
+                        <mat-error *ngIf="REG_FORM.controls['mobile'].hasError('pattern')">Mobile numberr should be only numbers</mat-error>
+                      </mat-error>
+                    </mat-form-field>
+                    <mat-form-field>
+                      <input matInput placeholder="Password" [type]="hide ? 'password' : 'text'" formControlName="password">
+                      <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+                    </mat-form-field>
+                    <mat-form-field>
+                      <input matInput placeholder="Confirm password" [type]="hide ? 'password' : 'text'" formControlName="conf_password">
+                      <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
 
-              <!-- <form #loginForm="ngForm">
-                <div class="form-group row">
-                  <label for="staticEmail" class="col-sm-3 col-form-label labelalign">Full Name</label>
-
-                  <input type="text" class="form-control col-sm-9" id="username" required pattern="[a-zA-Z][a-zA-Z ]+" [(ngModel)]="model.username"
-                    name="username" #username="ngModel">
-                  <a [hidden]="username.valid || username.pristine" class="alert alert-danger">
-                   <div [hidden]="!username.hasError('required')">username is required</div>
-                    <div [hidden]="!username.hasError('pattern')">Only alphabetsallowed</div>
-                  </a>
-                </div>
-                <div class="form-group row">
-                  <label for="staticEmail" class="col-sm-3 col-form-label labelalign">E-Mail</label>
-                  <input type="text" class="form-control col-sm-9" id="emailaddress" required [(ngModel)]="model.email" name="email" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
-                    #email="ngModel">
-                  <div [hidden]="email.valid || email.pristine" class="alert alert-danger">
-                    <div [hidden]="!email.hasError('required')">Email is required</div>
-                    <div [hidden]="!email.hasError('pattern')">Email format should be
-                      <small>
-                        <b>joe@abc.com</b>
-                      </small>
+                    </mat-form-field>
+                    <div class="row">
+                      <div class="col-md-7">
+                        <button type="submit" (click)="onSubmit()" data-dismiss="modal" class="float-right btn btn-primary" [disabled]="!REG_FORM.valid">Register</button>
+                      </div>
                     </div>
                   </div>
+                </form>
+
+
+                <!-- <form #loginForm="ngForm">
+            <div class="form-group row">
+              <label for="staticEmail" class="col-sm-3 col-form-label labelalign">Full Name</label>
+
+              <input type="text" class="form-control col-sm-9" id="username" required pattern="[a-zA-Z][a-zA-Z ]+" [(ngModel)]="model.username"
+                name="username" #username="ngModel">
+              <a [hidden]="username.valid || username.pristine" class="alert alert-danger">
+               <div [hidden]="!username.hasError('required')">username is required</div>
+                <div [hidden]="!username.hasError('pattern')">Only alphabetsallowed</div>
+              </a>
+            </div>
+            <div class="form-group row">
+              <label for="staticEmail" class="col-sm-3 col-form-label labelalign">E-Mail</label>
+              <input type="text" class="form-control col-sm-9" id="emailaddress" required [(ngModel)]="model.email" name="email" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+                #email="ngModel">
+              <div [hidden]="email.valid || email.pristine" class="alert alert-danger">
+                <div [hidden]="!email.hasError('required')">Email is required</div>
+                <div [hidden]="!email.hasError('pattern')">Email format should be
+                  <small>
+                    <b>joe@abc.com</b>
+                  </small>
                 </div>
-                <div class="form-group row">
-                  <label for="staticEmail" class="col-sm-3 col-form-label labelalign">Mobile No</label>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="staticEmail" class="col-sm-3 col-form-label labelalign">Mobile No</label>
 
-                  <input type="text" class="form-control col-sm-9" id="mobilenumber" required [(ngModel)]="model.mobile" name="mobilenumber"
-                    pattern="[0-9]*" minlength="10" maxlength="10" #mobile="ngModel">
-                  <div [hidden]="mobile.valid || mobile.pristine" class="alert alert-danger">
-                    <div [hidden]="!mobile.hasError('minlength')">Mobile should be 10digit</div>
-                    <div [hidden]="!mobile.hasError('required')">Mobile is required</div>
-                    <div [hidden]="!mobile.hasError('pattern')">Mobile numberr should be only numbers</div>
-                  </div>
+              <input type="text" class="form-control col-sm-9" id="mobilenumber" required [(ngModel)]="model.mobile" name="mobilenumber"
+                pattern="[0-9]*" minlength="10" maxlength="10" #mobile="ngModel">
+              <div [hidden]="mobile.valid || mobile.pristine" class="alert alert-danger">
+                <div [hidden]="!mobile.hasError('minlength')">Mobile should be 10digit</div>
+                <div [hidden]="!mobile.hasError('required')">Mobile is required</div>
+                <div [hidden]="!mobile.hasError('pattern')">Mobile numberr should be only numbers</div>
+              </div>
 
-                </div>
-                <div class="form-group row">
-                  <label for="staticEmail" class="col-sm-3 col-form-label labelalign">Password</label>
+            </div>
+            <div class="form-group row">
+              <label for="staticEmail" class="col-sm-3 col-form-label labelalign">Password</label>
 
-                  <input type="password" class="form-control col-sm-9" id="password" required [(ngModel)]="model.password" name="password"
-                    #password="ngModel">
-                  <div [hidden]="password.valid || password.pristine" class="alert alert-danger">
-                    Password is required
-                  </div>
-                </div>
-                <div class="form-group row">
-                  <label for="staticEmail" class="col-sm-3 col-form-label labelalign">Cofirm Password</label>
+              <input type="password" class="form-control col-sm-9" id="password" required [(ngModel)]="model.password" name="password"
+                #password="ngModel">
+              <div [hidden]="password.valid || password.pristine" class="alert alert-danger">
+                Password is required
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="staticEmail" class="col-sm-3 col-form-label labelalign">Cofirm Password</label>
 
-                  <input type="password" class="form-control col-sm-9" id="conf_password" required validateEqual="password" [(ngModel)]="model.conf_password"
-                    name="conf_password" #conf_password="ngModel">
-                  <div [hidden]="conf_password.valid || conf_password.pristine" class="alert alert-danger">
-                    Passwords did not match
-                  </div>
+              <input type="password" class="form-control col-sm-9" id="conf_password" required validateEqual="password" [(ngModel)]="model.conf_password"
+                name="conf_password" #conf_password="ngModel">
+              <div [hidden]="conf_password.valid || conf_password.pristine" class="alert alert-danger">
+                Passwords did not match
+              </div>
 
-                </div>
-                <div class="form-group row">
-                    <div class="col-sm-6">
-                    <button type="submit" (click)="onSubmit()" data-dismiss="modal" class="float-right btn btn-primary" [disabled]="!loginForm.form.valid">Register</button>
-                  </div>
-                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-6">
+                <button type="submit" (click)="onSubmit()" data-dismiss="modal" class="float-right btn btn-primary" [disabled]="!loginForm.form.valid">Register</button>
+              </div>
+            </div>
 
-              </form> -->
+          </form> -->
 
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Register Form POPUP-->
-  <div class="modal fade edit" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Welcome </h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="col-md-12 custome">
-          <div class="card text-center">
-            <div class="card-header  card bg-primary text-white">
-              Register Here
-            </div>
-            <div class="card-body">
-              <form method="POST" [formGroup]="REG_UPDATE_FORM">
-                <div class="example-container">
-                  <mat-form-field>
-                    <input matInput placeholder="Username " formControlName="username"   required>
-                  </mat-form-field>
-                  <mat-form-field>
-                    <input matInput placeholder="Enter your email" formControlName="email" required>
-                    <mat-error *ngIf="REG_FORM.controls['email'].invalid">{{getErrorMessage()}}</mat-error>
-                  </mat-form-field>
-                  <mat-form-field>
-                    <input matInput placeholder="Mobile No" minlength="10" maxlength="10" formControlName="mobile" pattern="[0-9]*" required>
-                    <mat-error *ngIf="!REG_FORM.controls['mobile'].valid || !REG_FORM.controls['mobile'].pristine">
-                      <mat-error *ngIf="REG_FORM.controls['mobile'].hasError('minlength')">Mobile should be 10digit</mat-error>
-                      <mat-error *ngIf="REG_FORM.controls['mobile'].hasError('required')">Mobile is required</mat-error>
-                      <mat-error *ngIf="REG_FORM.controls['mobile'].hasError('pattern')">Mobile numberr should be only numbers</mat-error>
-                    </mat-error>
-                  </mat-form-field>
-                 
-                  <div class="row">
-                    <div class="col-md-7">
-                    <button type="submit" (click)="onSubmit()" data-dismiss="modal" class="float-right btn btn-primary" [disabled]="!REG_UPDATE_FORM.valid">Register</button>
-                  </div>
-                </div>
-                </div>
-              </form>
-
-
-           
-            </div>
+    <!-- Register Form POPUP-->
+    <div class="modal fade disable" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content" *ngIf="disable_Data">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Disable</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Are Sure you want to Disable this User ...
+              <span style="color: red">{{disable_Data.email }}</span>
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+            <button type="button" (click)="disable(disable_Data)" data-dismiss="modal" class="btn btn-primary">Yes</button>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Register Form POPUP-->
-  <div class="modal fade delete" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">New message</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="col-md-8" align="center">
-          <div class="card text-center">
-            <div class="card-header  card bg-primary text-white">
-              Register
-            </div>
-            <div class="card-body">
-              <form method="POST"  enctype="multipart/form-data" [formGroup]="loginForm1">
-                <div class="form-group row">
-                  <label for="staticEmail" class="col-sm-3 col-form-label labelalign">Select File</label>
+    <!-- Delete POPUP-->
 
-                  <input type="file" class="form-control col-sm-9" id="username" formControlName="image"  (change)="onChange($event)"  
-                    name="username"  >
-                
-                </div>
-                <div *ngIf="imagepriview">
-                  <img [src]="imagepriview" [alt]="loginForm1.value.image">
-                </div>
-
-              </form>
-
-            </div>
+    <div class="modal fade delete" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content" *ngIf="delete_Data">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Are Sure you want to Delete this User ...
+              <span style="color: red">{{delete_Data.email }}</span>
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+            <button type="button" (click)="delete(delete_Data)" data-dismiss="modal" class="btn btn-primary">Yes</button>
           </div>
         </div>
       </div>
     </div>
+    <!-- </div> -->
+
+<!--> Reset popup -->
+<div class="modal fade reset" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content" *ngIf="reset_Data">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Reset Password</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Are Sure you want to Reset this User's Password ...
+              <span style="color: red">{{reset_Data.email }}</span>
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+            <button type="button" (click)="resetPassword(reset_Data)" data-dismiss="modal" class="btn btn-primary">Yes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<!--> Reset popup End -->
+
   </div>
 </div>

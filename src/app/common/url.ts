@@ -11,6 +11,8 @@ export class Url {
         USERINFO_UPDATE_VIMAGE :environment.url + 'authentication/userinfo_update_vimage',
         // regViaemail :environment.url + 'users/registervialink',
         regViaemail :environment.url + 'user/sendpresignupotp',
-
+        SENDPASSWORDLINK :environment.url + 'users/sendPasswordLink',
+        DISABLE_USER: environment.url + 'users/disableUser',
+        RESET_PASSWORD: environment.url + 'auth/reset',
     }
 }  
