@@ -4,7 +4,8 @@ import { AuthGuard } from '../common/auth.guard';
 import {UsersComponent  } from "../users/users.component";
 import { EmailAuthComponent } from '../email-auth/email-auth.component';
 import { ResetpasswordComponent } from '../resetpassword/resetpassword.component';
-
+import { UnitofmeasuersComponent } from '../unitofmeasuers/unitofmeasuers.component';
+ 
 const approuts : Routes = [
     {
         path:'', component:UserloginComponent
@@ -19,6 +20,8 @@ const approuts : Routes = [
     },
     {   path: 'reset/:id1/:id2/:id3',  component: ResetpasswordComponent
     },
+    {   path: 'uom',  component: UnitofmeasuersComponent
+},
 
     { path: '', redirectTo: '', pathMatch: 'full' },
     { path: '**', redirectTo: 'users', pathMatch: 'full' }

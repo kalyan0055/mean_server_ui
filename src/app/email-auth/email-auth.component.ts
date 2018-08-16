@@ -96,19 +96,12 @@ export class EmailAuthComponent implements OnInit, OnDestroy {
       otp:this.otp
     }
     this.Auth.confirmRegistration(body).subscribe((res) => {
-      if (res.success) {
-        console.log(res.token, 'tttttttttttttt');
-
-        let msg = 'Welcome -' + (res.data.username).toUpperCase();
-        this.US.userlogin = true;
-        localStorage.setItem('name', res.data.username)
-        localStorage.setItem('email', res.data.email)
-        localStorage.setItem('token', res.token)
-        this.US.userdata = res.data;
-        this.toaster.success(msg, 'Success');
-        this.router.navigate(['users']);
+      if (res.status) {
+        console.log(res, 'tttttttttttttt');
+        this.toaster.success('Admin User Registered Successfully', 'Success');
+        this.router.navigate(['']);
       } else {
-        this.toaster.error(res.message, 'Error');
+        this.toaster.error('Admin User Registration Error...', 'Error');
       }
     })
   }

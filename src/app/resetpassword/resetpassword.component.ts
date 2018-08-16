@@ -61,20 +61,16 @@ export class ResetpasswordComponent implements OnInit {
   }
 
   username: any;
-  otp:number;
+  otp: number;
   ngOnInit() {
     localStorage.clear();
     this.sub = this.route.params.subscribe(params => {
       this.username = params.id1// (+) converts string 'id' to a number
       this.otp = params.id2
       this.location.replaceState('reset');
-      // Decode the String
- 
-     
-      // In a real app: dispatch action to load the details here.
     });
 
-  
+
   }
 
   ngOnDestroy() {
@@ -86,30 +82,23 @@ export class ResetpasswordComponent implements OnInit {
     this.router.navigate(['userlogin'])
   }
   onSubmit() {
-    console.log(this.registrationFormGroup.value.passwordFormGroup);
     let body = {
       username: this.username,
       newPassword: this.registrationFormGroup.value.passwordFormGroup.password,
       verifyPassword: this.registrationFormGroup.value.passwordFormGroup.repeatPassword,
-      otp:this.otp
-    } 
+      otp: this.otp
+    }
     this.Auth.resetPassword(body).subscribe((res) => {
-      console.log(res,'oooooooooooooooo');
-      
       if (res.status) {
-        console.log(res.token, 'tttttttttttttt');
-        let msg = 'Welcome -' + (res.data.username).toUpperCase();
-        this.US.userlogin = true;
-        this.US.userdata = res.data;
+        let msg = res.message;
         this.toaster.success(msg, 'Success');
-        this.router.navigate(['users']);
+        localStorage.clear();
+        this.router.navigate(['']);
       } else {
         this.toaster.error(res.message, 'Error');
       }
     })
   }
 
-  forgetpassword() {
 
-  }
 }

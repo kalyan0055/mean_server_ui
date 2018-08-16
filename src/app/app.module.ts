@@ -51,6 +51,7 @@ import { EmailAuthComponent } from './email-auth/email-auth.component';
 import { HeaderComponent } from './common/header/header.component';
 import { SidenavComponent } from './common/sidenav/sidenav.component';
 import { ResetpasswordComponent } from './resetpassword/resetpassword.component';
+import { UnitofmeasuersComponent } from './unitofmeasuers/unitofmeasuers.component';
 
 @NgModule({
   declarations: [
@@ -61,7 +62,8 @@ import { ResetpasswordComponent } from './resetpassword/resetpassword.component'
     DatatablesPipe,
     HeaderComponent,
     SidenavComponent,
-    ResetpasswordComponent
+    ResetpasswordComponent,
+    UnitofmeasuersComponent
     
   ],
   imports: [
