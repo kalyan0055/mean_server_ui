@@ -7,6 +7,8 @@
       <a mat-list-item [routerLink]="['/user']">Admin Users</a>
       <a mat-list-item [routerLink]="['/uom']">Unit Of Measures</a>
       <a mat-list-item [routerLink]="['/hsn']">HSN CODES</a>
+
+      
     </mat-nav-list>
   </div>
 
@@ -16,7 +18,7 @@
     <div class="" [ngClass]="(nvipani)?'card1':'card'">
       <div class="card">
         <div class="card-header ">
-          <span> List of Unit of Measures </span>
+          <span> List of HSN Codes </span>
           <!-- <button mat-raised-button (click)="register()" data-toggle="modal" data-target=".bd-example-modal-lg" class="float-right"
       color="accent">Register</button> -->
           <button mat-raised-button    class="float-right btn btn-sm" data-toggle="modal" data-target=".uom_add" color="accent" *ngIf="!nvipani">
@@ -55,19 +57,19 @@
                   <mfDefaultSorter by="name">Name </mfDefaultSorter>
                 </th>
                 <th style="width: 10%">
-                  <mfDefaultSorter by="symbol">Symbol </mfDefaultSorter>
+                  <mfDefaultSorter by="description">Description </mfDefaultSorter>
                 </th>
                 <th style="width: 10%">
-                  <mfDefaultSorter by="type">Type </mfDefaultSorter>
+                  <mfDefaultSorter by="hsncode">HSN CODE </mfDefaultSorter>
                 </th>
                 <th style="width: 10%">
-                  <mfDefaultSorter by="uqcCode">UQC Code </mfDefaultSorter>
+                  <mfDefaultSorter by="chaptercode">Chapter Code</mfDefaultSorter>
                 </th>
                 <th style="width: 10%">
-                  <mfDefaultSorter by="quantityType">Quantity Type </mfDefaultSorter>
+                  <mfDefaultSorter by="quantityType">Name </mfDefaultSorter>
                 </th>
                 <th style="width: 10%">
-                  <mfDefaultSorter by="Description">Descripton </mfDefaultSorter>
+                  <mfDefaultSorter by="disabled">Disabled </mfDefaultSorter>
                 </th>
                 <th style="width: 10%">
                   <mfDefaultSorter by="Description">Options </mfDefaultSorter>
@@ -79,11 +81,11 @@
               <tr [ngClass]="{'deletecolor':t.deleted}">
                 <th scope="row">{{tabaledata1.indexOf(t)+1}}</th>
                 <td>{{t.name}}</td>
-                <td>{{t.symbol}}</td>
-                <td>{{t.type}}</td>
-                <td>{{t.uqcCode}}</td>
-                <td>{{t.quantityType}}</td>
                 <td>{{t.description}}</td>
+                <td>{{t.hsncode}}</td>
+                <td>{{t.chaptercode}}</td>
+                <td>{{t.name}}</td>
+                <td>{{t.disabled}}</td>
                 <td><a [ngClass]="{'unselectable':t.disabled}" (click)="delete_popup(t)" data-toggle="modal" style="margin-right: 5px; margin-left: 5px;" data-target=".delete" class="btn btn-sm btn-success">
                   <i class="fas fa-eye"></i>
                 </a>

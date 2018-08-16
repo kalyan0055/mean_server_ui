@@ -14,7 +14,7 @@ export class HeaderComponent implements OnInit {
     console.log(this.US.userdata);
     console.log(this.US.userdata.username);
     
-    this.headername = this.US.userdata.username.substr(0, this.US.userdata.username.length - 12)
+    this.headername = localStorage.getItem('name').substr(0, localStorage.getItem('name').length - 12)
   }
 
   logout(){

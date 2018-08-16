@@ -20,7 +20,7 @@ export class UsersComponent implements OnInit {
   name: any;
   msg;
   password_status = false;
-  tabaledata: any = []
+  tabaledata: any ;
   loginForm: FormGroup;
   REG_FORM: FormGroup;
   REG_FORM1: FormGroup;

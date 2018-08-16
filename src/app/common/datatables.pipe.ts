@@ -1,3 +1,22 @@
+// import { Pipe, PipeTransform } from '@angular/core';
+// @Pipe({
+//   name: 'dataFilter'
+// })
+// export class DatatablesPipe implements PipeTransform {
+//   transform(items: any[], searchText: string): any[] {
+//     console.log(items,searchText);
+    
+//     if(!items) return [];
+//     if(!searchText) return items;
+// searchText = searchText.toLowerCase();
+// return items.filter( it => {
+//   console.log(it);
+  
+//       return it.toLowerCase().includes(searchText);
+//     });
+//    }
+// }
+
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
@@ -46,6 +65,8 @@ export class DatatablesPipe implements PipeTransform {
     }
   }
 }
+
+
 
 // transform(value: any, args?: any): any {
 //     return null;

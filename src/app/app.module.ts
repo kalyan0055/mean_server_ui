@@ -52,6 +52,7 @@ import { HeaderComponent } from './common/header/header.component';
 import { SidenavComponent } from './common/sidenav/sidenav.component';
 import { ResetpasswordComponent } from './resetpassword/resetpassword.component';
 import { UnitofmeasuersComponent } from './unitofmeasuers/unitofmeasuers.component';
+import { HsncodesComponent } from './hsncodes/hsncodes.component';
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import { UnitofmeasuersComponent } from './unitofmeasuers/unitofmeasuers.compone
     HeaderComponent,
     SidenavComponent,
     ResetpasswordComponent,
-    UnitofmeasuersComponent
+    UnitofmeasuersComponent,
+    HsncodesComponent
     
   ],
   imports: [

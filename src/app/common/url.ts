@@ -14,5 +14,12 @@ export class Url {
         SENDPASSWORDLINK :environment.url + 'users/sendPasswordLink',
         DISABLE_USER: environment.url + 'users/disableUser',
         RESET_PASSWORD: environment.url + 'auth/reset',
+
+        //UNIT OF MEASUREMENTS
+        CREATE_UOM: environment.url + 'unitofmeasures',
+
+
+        //HSN CODES
+        HSN_CODES: environment.url + 'hsncodes',
     }
 }  
