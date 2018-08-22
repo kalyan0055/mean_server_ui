@@ -1,9 +1,18 @@
  
-  <div class="col-md-2">
+  <!-- <div class="col-md-2">
       <mat-nav-list>
           <a mat-list-item (click)="sideclick('section1')">First Page</a>
           <a mat-list-item routerLink="/second-page">Second Page</a>
           <a mat-list-item routerLink="/third-page">Third Page</a>
         </mat-nav-list>
+  </div> -->
+  <div class="col-md-2 nvipani" style="background-color: #c0daf3!important;">
+    <mat-nav-list class="space">
+      
+            <a mat-list-item [routerLink]="['/user']" >Admin Users</a>
+            <a mat-list-item  [routerLink]="['/uom']">Unit of Measures</a>
+            <a mat-list-item [routerLink]="['/hsn']" >HSN Codes</a>
+            <a mat-list-item [routerLink]="['/taxgroups']" >Tax Groups</a>
+      <!-- <a mat-list-item [routerLink]="['/hsn']">HSN CODES</a>-->
+     </mat-nav-list> 
   </div>
-

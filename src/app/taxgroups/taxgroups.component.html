@@ -1,0 +1,248 @@
+<app-header>
+
+  </app-header>
+  <div class="row">
+      <app-sidenav style="background-color: #bcdefb;"></app-sidenav>
+    <div class="col-md-10 main">
+      <div class="" [ngClass]="(nvipani)?'card1':'card'">
+        <div class="card">
+          <div class="card-header ">
+            <span> List of TaxGroups </span>
+             <button mat-raised-button    class="float-right btn btn-sm" (click)="resetForm()" data-toggle="modal" data-target=".uom_add" color="accent" *ngIf="!nvipani">
+              <i class="fa fa-plus"></i>
+              <i class="fa fa-user"></i>
+            </button>
+               <button mat-raised-button (click)="back()" class="float-right" color="accent" *ngIf="nvipani">Back</button>
+            </div>
+          <div class="card-body" >
+            <div class="row ">
+              <div class="col-md-3 float-right">
+                <div class="input-group input-group-sm">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">
+                      <i class="fa fa-search"></i>
+                    </span>
+                  </div>
+                  <input class="form-control-sm form-control" placeholder="Search" type="text" [(ngModel)]="filterQuery" autocomplete="off"
+                    name="filter">
+                </div>
+              </div>
+            </div>
+            <!-- <table class="table table-bordered"> -->
+            <table class="table table-sm table-inverse table-bordered" [mfData]="tabaledata | dataFilter : filterQuery" #mf="mfDataTable"
+              [mfRowsOnPage]="rowsOnPage" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+  
+              <thead>
+                <tr>
+                  <th style="width: 5%">
+                    <mfDefaultSorter by="name">S.No
+  
+                    </mfDefaultSorter>
+                  </th>
+                  <th style="width: 20%">
+                    <mfDefaultSorter by="name">Name </mfDefaultSorter>
+                  </th>
+                  <th style="width: 10%">
+                    <mfDefaultSorter by="description">Symbol </mfDefaultSorter>
+                  </th>
+                  <th style="width: 10%">
+                    <mfDefaultSorter by="CGST">Type </mfDefaultSorter>
+                  </th>
+                  <th style="width: 10%">
+                    <mfDefaultSorter by="SGST">UQC Code </mfDefaultSorter>
+                  </th>
+                  <th style="width: 10%">
+                    <mfDefaultSorter by="IGST">Quantity Type </mfDefaultSorter>
+                  </th>
+                  <th style="width: 10%">
+                    <mfDefaultSorter by="cess">Descripton </mfDefaultSorter>
+                  </th>
+                  <th style="width: 10%">
+                    <mfDefaultSorter by="">Options </mfDefaultSorter>
+                  </th>
+                </tr>
+              </thead>
+  
+              <tbody *ngFor="let t of mf.data; let i=index; let k=index;">
+                <tr [ngClass]="{'deletecolor':t.deleted}">
+                  <th scope="row">{{tabaledata.indexOf(t)+1}}</th>
+                  <td>{{t.name}}</td>
+                  <td>{{t.description}}</td>
+                  <td>{{t.CGST}}</td>
+                  <td>{{t.SGST}}</td>
+                  <td>{{t.IGST}}</td>
+                  <td>{{t.cess}}</td>
+                  <td><a [ngClass]="{'unselectable':t.disabled}" (click)="delete_popup(t)" data-toggle="modal"  data-target=".delete" class="btn btn-sm btn-success">
+                    <i class="fas fa-eye"></i>
+                  </a>
+                  <a (click)="editTGroup(t)" data-toggle="modal" style="margin-right: 5px; margin-left: 5px;" data-target=".uom_add" class="btn btn-sm btn-warning">
+                      <i class="fas fa-pencil-alt"></i>
+                  </a>
+                    <a [ngClass]="{'unselectable':t.disabled}" (click)="delete_popup(t)" data-toggle="modal"   data-target=".delete" class="btn btn-sm btn-danger">
+                        <i class="fas fa-trash"></i>
+                      </a>
+                  </td>               
+                </tr>
+                <tr>
+  
+                </tr>
+  
+              </tbody>
+              <tbody *ngIf="loading">
+                <tr>
+                  <td class="text-center" colspan="13">
+                    <i class="fa fa-spinner fa-spin fa-2x"></i>
+                  </td>
+                </tr>
+              </tbody>
+              <tfoot *ngIf="mf.data.length != 0 ">
+                <tr>
+                  <td colspan="10">
+                    <mfBootstrapPaginator [rowsOnPageSet]="[10,15,25,50]"></mfBootstrapPaginator>
+                  </td>
+                </tr>
+              </tfoot>
+  
+            </table>
+  
+          </div>
+      
+        </div>
+  
+      </div>
+      <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Large modal</button> -->
+      <!-- Register Form POPUP-->
+      <div class="modal fade uom_add" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel"> </h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="col-md-12 custome">
+              <div class="card text-center">
+                <div class="card-header  card bg-primary text-white">
+                 <span *ngIf="tgUpdateId === ''">Add Tax-Groups</span><span  *ngIf="tgUpdateId !== ''">Update Tax-Groups</span>
+                </div>
+                <div class="card-body">
+                  <form method="POST" [formGroup]="TAX_FORM">
+                    <div class="example-container">
+                      <div class="row">
+                           
+                          <div class="col-md-4">
+                          <mat-form-field>
+                              <input matInput placeholder="Name " formControlName="name" pattern="[a-zA-Z0-9%+\s]*" >
+                              <mat-error *ngIf="TAX_FORM.controls['name'].hasError('required')">Name is required</mat-error>
+                            </mat-form-field>
+                          </div>
+                          <div class="col-md-4"  >
+                              <mat-form-field> 
+                                <input matInput placeholder="Description" type= "text" formControlName="description"  pattern="[a-zA-Z0-9%+\s]*"  >
+                                <mat-error *ngIf="TAX_FORM.controls['description'].hasError('required')"> Description is required</mat-error>
+                             </mat-form-field>
+                          </div>
+                         
+                          <div class="col-md-4">
+                            <mat-form-field>
+                              <input matInput placeholder="CGST"   formControlName="CGST" pattern="^\d+(\.\d+)*$">
+                              <mat-error *ngIf="!TAX_FORM.controls['CGST'].valid || !TAX_FORM.controls['CGST'].pristine">
+                                <!-- <mat-error *ngIf="TAX_FORM.controls['CGST'].hasError('minlength')">CGST should be 10digit</mat-error> -->
+                                <mat-error *ngIf="TAX_FORM.controls['CGST'].hasError('required')">CGST is required</mat-error>
+                                <mat-error *ngIf="TAX_FORM.controls['CGST'].hasError('pattern')">Only Numbers Allowed</mat-error>
+                              </mat-error>
+                            </mat-form-field>
+                          </div>
+                          <div class="col-md-4">
+                              <mat-form-field>
+                                <input matInput placeholder="SGST" formControlName="SGST" pattern="^\d+(\.\d+)*$">
+                                <mat-error *ngIf="TAX_FORM.controls['SGST'].hasError('required')">Please enter SGST </mat-error> 
+                                <mat-error *ngIf="TAX_FORM.controls['SGST'].hasError('pattern')">Only Numbers Allowed</mat-error>
+                                
+                              </mat-form-field>
+                            </div>
+                          <div class="col-md-4">
+                            <mat-form-field>
+                              <input matInput placeholder="IGST" formControlName="IGST" pattern="^\d+(\.\d+)*$">
+                              <mat-error *ngIf="TAX_FORM.controls['IGST'].hasError('required')">Please enter IGST </mat-error> 
+                              <mat-error *ngIf="TAX_FORM.controls['IGST'].hasError('pattern')">Only Numbers Allowed</mat-error>
+                           
+                            </mat-form-field>
+                          </div>
+                          <div class="col-md-4">
+                              <mat-form-field>
+                                <input matInput placeholder="cess" formControlName="cess" pattern="^\d+(\.\d+)*$">
+                              </mat-form-field>
+                          </div>
+                           
+                    </div>
+  
+  
+                      <div class="row">
+                        <div class="col-md-7">
+                          <button type="submit" (click)="addTaxGroups()" data-dismiss="modal" class="float-right btn btn-primary" [disabled]="!TAX_FORM.valid">SAVE</button>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+   
+  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Register Form POPUP-->
+      <div class="modal fade disable" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content" *ngIf="disable_Data">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Disable</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>Are Sure you want to Disable this TaxGroup ...
+                <span style="color: red">{{disable_Data.email }}</span>
+              </p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+              <button type="button" (click)="disable(disable_Data)" data-dismiss="modal" class="btn btn-primary">Yes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Delete POPUP-->
+  
+      <div class="modal fade delete" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content" *ngIf="delete_Data">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>Are Sure you want to Delete this TaxGroup ...
+                <span style="color: red">{{delete_Data.email }}</span>
+              </p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+              <button type="button" (click)="delete(delete_Data)" data-dismiss="modal" class="btn btn-primary">Yes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- </div> -->
+ 
+  
+    </div>
+  </div>

@@ -1,34 +1,18 @@
-<app-header>
-
-</app-header>
+<app-header></app-header>
 <div class="row">
-  <div class="col-md-2 " style="background-color: #c0daf3!important;" [ngClass]="{'divwidth1':nvipani,'divwidth':!nvipani}">
-    <mat-nav-list>
-      <a mat-list-item [routerLink]="['/user']">Admin Users</a>
-      <a mat-list-item [routerLink]="['/uom']">Unit Of Measures</a>
-      <a mat-list-item [routerLink]="['/hsn']">HSN CODES</a>
-
-      
-    </mat-nav-list>
-  </div>
-
+  <app-sidenav style="background-color: #bcdefb;"></app-sidenav>
   <div class="col-md-10 main">
-    <!-- <div class="grid-container"> -->
-    <!-- <h1 class="mat-h1">Dashboard</h1> -->
     <div class="" [ngClass]="(nvipani)?'card1':'card'">
       <div class="card">
         <div class="card-header ">
           <span> List of HSN Codes </span>
-          <!-- <button mat-raised-button (click)="register()" data-toggle="modal" data-target=".bd-example-modal-lg" class="float-right"
-      color="accent">Register</button> -->
-          <button mat-raised-button    class="float-right btn btn-sm" data-toggle="modal" data-target=".uom_add" color="accent" *ngIf="!nvipani">
+          <button mat-raised-button class="float-right btn btn-sm" data-toggle="modal" data-target=".uom_add" color="accent" *ngIf="!nvipani">
             <i class="fa fa-plus"></i>
             <i class="fa fa-user"></i>
           </button>
-             <button mat-raised-button (click)="back()" class="float-right" color="accent" *ngIf="nvipani">Back</button>
-          <!-- <a class="btn btn-sm btn-danger float-right">float-right</a> -->
+          <button mat-raised-button (click)="back()" class="float-right" color="accent" *ngIf="nvipani">Back</button>
         </div>
-        <div class="card-body" >
+        <div class="card-body">
           <div class="row ">
             <div class="col-md-3 float-right">
               <div class="input-group input-group-sm">
@@ -40,9 +24,9 @@
                 <input class="form-control-sm form-control" placeholder="Search" type="text" [(ngModel)]="filterQuery" autocomplete="off"
                   name="filter">
               </div>
+
             </div>
           </div>
-          <!-- <table class="table table-bordered"> -->
           <table class="table table-sm table-inverse table-bordered" [mfData]="tabaledata1 | dataFilter : filterQuery" #mf="mfDataTable"
             [mfRowsOnPage]="rowsOnPage" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
 
@@ -86,32 +70,21 @@
                 <td>{{t.chaptercode}}</td>
                 <td>{{t.name}}</td>
                 <td>{{t.disabled}}</td>
-                <td><a [ngClass]="{'unselectable':t.disabled}" (click)="delete_popup(t)" data-toggle="modal" style="margin-right: 5px; margin-left: 5px;" data-target=".delete" class="btn btn-sm btn-success">
-                  <i class="fas fa-eye"></i>
-                </a>
-
-                </td>
-
-                <!-- <td>
-                  <button [disabled]="t.disabled" class="btn btn-sm btn-success" (click)="disable_popup(t)"  data-toggle="modal"
-                    data-target=".disable">
-                    <i class="fas fa-user-lock"></i>
-                  </button>
-
-                  <a [ngClass]="{'unselectable':t.disabled}" (click)="delete_popup(t)" data-toggle="modal" style="margin-right: 5px; margin-left: 5px;" data-target=".delete" class="btn btn-sm btn-danger">
+                <td>
+                  <a [ngClass]="{'unselectable':t.disabled}" (click)="delete_popup(t)" data-toggle="modal" style="margin-right: 5px; margin-left: 5px;"
+                    data-target=".delete" class="btn btn-sm btn-success">
+                    <i class="fas fa-eye"></i>
+                  </a>
+                  <a [ngClass]="{'unselectable':t.disabled}" (click)="editHSN(t)" style="margin-right: 5px; margin-left: 5px;" data-toggle="modal"
+                    data-target=".uom_add" class="btn btn-sm btn-success">
+                    <i class="fas fa-edit"></i>
+                  </a>
+                  <a (click)="delete_popup(t)" data-toggle="modal" style="margin-right: 5px; margin-left: 5px;" data-target=".delete" class="btn btn-sm btn-danger">
                     <i class="fas fa-trash"></i>
                   </a>
-                  <a *ngIf="t.resetPasswordToken" [ngClass]="{'unselectable':t.disabled}" (click)="reset_popup(t)"  data-toggle="modal" data-target=".reset" class="btn btn-sm btn-warning">
-                      <i class="fas fa-unlock-alt"></i>
-                  </a>
-                  <a *ngIf="!t.resetPasswordToken" (click)="reset_popup(t)"  data-toggle="modal" data-target=".reset" class="btn btn-sm btn-warning">
-                      <i class="fas fa-lock"></i>
-                  </a>
-                </td> -->
-              
+                </td>
               </tr>
               <tr>
-
               </tr>
 
             </tbody>
@@ -125,19 +98,15 @@
             <tfoot *ngIf="mf.data.length != 0 ">
               <tr>
                 <td colspan="10">
-                  <mfBootstrapPaginator [rowsOnPageSet]="[10,15,25,50]"></mfBootstrapPaginator>
+                  <mfBootstrapPaginator [rowsOnPageSet]="[10,100,200]"></mfBootstrapPaginator>
+                  <mat-paginator (page)="onChnagepage($event)" [length]="totalposts" [pageSizeOptions]="[10,100,150,200]" [pageSize]="pageSize"></mat-paginator>
                 </td>
               </tr>
             </tfoot>
-
           </table>
-
         </div>
-    
       </div>
-
     </div>
-    <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Large modal</button> -->
     <!-- Register Form POPUP-->
     <div class="modal fade uom_add" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg">
@@ -151,78 +120,78 @@
           <div class="col-md-12 custome">
             <div class="card text-center">
               <div class="card-header  card bg-primary text-white">
-               Add Unit Of Measure
+                Add HSN Codes
               </div>
               <div class="card-body">
                 <form method="POST" [formGroup]="UOM_FORM">
                   <div class="example-container">
                     <div class="row">
-                      
-                        <div class="col-md-4">
-                        <mat-form-field>
-                            <input matInput placeholder="Name " formControlName="name" required>
-                            <mat-error *ngIf="UOM_FORM.controls['name'].hasError('required')">Name is required</mat-error>
-                          </mat-form-field>
-                        </div>
-                        <div class="col-md-4">
-                          <mat-form-field>
-                            <input matInput placeholder="Symbol" formControlName="symbol" required>
-                            <mat-error *ngIf="UOM_FORM.controls['symbol'].hasError('required')"> </mat-error>
-                          </mat-form-field>
-                        </div>
-                        <div class="col-md-4">
-                          <mat-form-field>
-                            <input matInput placeholder="Unique Code"   formControlName="uqcCode"  required>
-                            <mat-error *ngIf="!UOM_FORM.controls['uqcCode'].valid || !UOM_FORM.controls['uqcCode'].pristine">
-                              <!-- <mat-error *ngIf="UOM_FORM.controls['uqcCode'].hasError('minlength')">uqcCode should be 10digit</mat-error> -->
-                              <mat-error *ngIf="UOM_FORM.controls['uqcCode'].hasError('required')">uqcCode is required</mat-error>
-                              <!-- <mat-error *ngIf="UOM_FORM.controls['uqcCode'].hasError('pattern')">Mobile numberr should be only numbers</mat-error> -->
-                            </mat-error>
-                          </mat-form-field>
-                        </div>
-                        <div class="col-md-4"  >
-                          <mat-form-field> 
-                            <input matInput placeholder="Description" type= "text" formControlName="description" required>
-                            <mat-error *ngIf="UOM_FORM.controls['description'].hasError('required')"> Description is required</mat-error>
-                         </mat-form-field>
-                        </div>
-                        <div class="col-md-4">
-                         <mat-form-field>
-                            <!-- <mat-select placeholder="Select" formControlName="type" required>
-                                <mat-option  value="Simple">Simple</mat-option>
-                                <mat-option  value="Compound">Compound</mat-option>                         
-                              </mat-select>  -->
-                              <mat-select placeholder="Color" formControlName="type">
-                                  <mat-option value="Simple">Simple</mat-option>
-                                  <mat-option value="Compound">Compound</mat-option>
-                                  <mat-option value="warn">Warn</mat-option>
-                                </mat-select>
-                              <mat-error *ngIf="UOM_FORM.controls['type'].hasError('required')"> Please select type </mat-error>
-                        
-                            </mat-form-field>
-                            <!-- select class="form-control"  formControlName="type" required>
-                                <option  *ngFor="let t of types;" value="t.tyep">{{t.type}}</option>
-                              </select> -->
-                          
-                        </div>
-                        <div class="col-md-4">
-                          <mat-form-field>
-                            <input matInput placeholder="quantityType" formControlName="quantityType" required>
-                            <mat-error *ngIf="UOM_FORM.controls['quantityType'].hasError('required')">Please enter Quantity Type </mat-error> 
-                          </mat-form-field>
-                        </div>
-                  
-                  </div>
 
+                      <div class="col-md-4">
+                        <mat-form-field>
+                          <input matInput placeholder="Name " formControlName="name" required>
+                          <mat-error *ngIf="UOM_FORM.controls['name'].hasError('required')">Name is required</mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-4">
+                        <mat-form-field>
+                          <input matInput placeholder="Chapter Code" formControlName="chapterCode" required>
+                          <mat-error *ngIf="UOM_FORM.controls['chapterCode'].hasError('required')">Name is Chapter Code </mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-4">
+                        <mat-form-field>
+                          <input matInput placeholder="Chapter Description" formControlName="chapterDescription" required>
+                          <mat-error *ngIf="!UOM_FORM.controls['chapterDescription'].valid || !UOM_FORM.controls['chapterDescription'].pristine">
+                            <!-- <mat-error *ngIf="UOM_FORM.controls['chapterDescription'].hasError('minlength')">chapterDescription should be 10digit</mat-error> -->
+                            <mat-error *ngIf="UOM_FORM.controls['chapterDescription'].hasError('required')">chapterDescription
+                              is required</mat-error>
+                            <!-- <mat-error *ngIf="UOM_FORM.controls['uqcCode'].hasError('pattern')">Mobile numberr should be only numbers</mat-error> -->
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-4">
+                        <mat-form-field>
+                          <input matInput placeholder="HeadingCode" type="text" formControlName="headingCode" required>
+                          <mat-error *ngIf="UOM_FORM.controls['headingCode'].hasError('required')"> Description is required</mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-4">
+                        <mat-form-field>
+                          <input matInput placeholder="HeadingDescription" type="text" formControlName="headingDescription" required>
+                          <mat-error *ngIf="UOM_FORM.controls['headingDescription'].hasError('required')"> Heading Description
+                            is required</mat-error>
+                        </mat-form-field>
+                      </div>
+
+                      <div class="col-md-4">
+                        <mat-form-field>
+                          <input matInput placeholder="Hsncode" type="text" formControlName="hsncode" required>
+                          <mat-error *ngIf="UOM_FORM.controls['hsncode'].hasError('required')"> Hsncode is required</mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-4">
+                        <mat-form-field>
+                          <input matInput placeholder="Description" formControlName="description" required>
+                          <mat-error *ngIf="UOM_FORM.controls['description'].hasError('required')">Description is required
+                            </mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-4">
+                        <select class="form-control" formControlName="unitOfMeasure">
+                          <option *ngFor="let item of itemList" value="{{item._id}}">{{item.name}} </option>
+                        </select>
+                      </div>
+                    </div>
 
                     <div class="row">
                       <div class="col-md-7">
-                        <button type="submit" (click)="onSubmit()" data-dismiss="modal" class="float-right btn btn-primary" [disabled]="!UOM_FORM.valid">Register</button>
+                        <button type="submit" (click)="addHsn()" data-dismiss="modal" class="float-right btn btn-primary" [disabled]="!UOM_FORM.valid">Register</button>
                       </div>
                     </div>
                   </div>
                 </form>
- 
+
 
               </div>
             </div>
@@ -267,7 +236,7 @@
           </div>
           <div class="modal-body">
             <p>Are Sure you want to Delete this User ...
-              <span style="color: red">{{delete_Data.email }}</span>
+              <span style="color: red">{{delete_Data.name }}</span>
             </p>
           </div>
           <div class="modal-footer">
@@ -279,8 +248,8 @@
     </div>
     <!-- </div> -->
 
-<!--> Reset popup -->
-<div class="modal fade reset" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-->Reset popup -->
+    <div class="modal fade reset" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content" *ngIf="reset_Data">
           <div class="modal-header">
@@ -302,7 +271,7 @@
       </div>
     </div>
 
-<!--> Reset popup End -->
+    <!-->Reset popup End -->
 
   </div>
 </div>

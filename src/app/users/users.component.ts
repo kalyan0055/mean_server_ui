@@ -72,8 +72,9 @@ export class UsersComponent implements OnInit {
     this.loading = true;
     this.US.getNewUsers().subscribe((res) => {
       console.log(res);
-      this.tabaledata = res.data;
+     
       if (res.data) {
+        this.tabaledata = res.data;
         this.loading = false;
       } else {
         this.loading = true;
@@ -151,7 +152,6 @@ export class UsersComponent implements OnInit {
 
       }
     )
-
 
   }
   // --- NVIPANI FUNCTIONS

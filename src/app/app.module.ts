@@ -31,9 +31,10 @@ import {   MatAutocompleteModule,
   MatTableModule,
   MatTabsModule,
   MatToolbarModule,
-   
-  MatStepperModule, } from '@angular/material';
-   
+ 
+  MatStepperModule,
+   } from '@angular/material';
+ 
   import {ReactiveFormsModule,FormsModule} from '@angular/forms'
  
 import {HttpModule} from '@angular/http';
@@ -53,7 +54,10 @@ import { SidenavComponent } from './common/sidenav/sidenav.component';
 import { ResetpasswordComponent } from './resetpassword/resetpassword.component';
 import { UnitofmeasuersComponent } from './unitofmeasuers/unitofmeasuers.component';
 import { HsncodesComponent } from './hsncodes/hsncodes.component';
-
+import {DropdownModule} from 'primeng/dropdown';
+import { TaxgroupsComponent } from './taxgroups/taxgroups.component';
+import { ProfileComponent } from './profile/profile.component';
+ 
 @NgModule({
   declarations: [
     AppComponent,
@@ -65,7 +69,9 @@ import { HsncodesComponent } from './hsncodes/hsncodes.component';
     SidenavComponent,
     ResetpasswordComponent,
     UnitofmeasuersComponent,
-    HsncodesComponent
+    HsncodesComponent,
+    TaxgroupsComponent,
+    ProfileComponent
     
   ],
   imports: [
@@ -106,7 +112,9 @@ import { HsncodesComponent } from './hsncodes/hsncodes.component';
     HttpModule, 
     ToastrModule.forRoot(),
     approutes,
-    DataTableModule
+    DataTableModule,
+    DropdownModule,
+ 
   ],
   providers: [UploadService,AuthGuard],
   bootstrap: [AppComponent]

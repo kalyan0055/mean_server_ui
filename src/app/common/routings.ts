@@ -6,6 +6,8 @@ import { EmailAuthComponent } from '../email-auth/email-auth.component';
 import { ResetpasswordComponent } from '../resetpassword/resetpassword.component';
 import { UnitofmeasuersComponent } from '../unitofmeasuers/unitofmeasuers.component';
 import { HsncodesComponent } from '../hsncodes/hsncodes.component';
+import { TaxgroupsComponent } from '../taxgroups/taxgroups.component';
+import { ProfileComponent } from '../profile/profile.component';
  
 const approuts : Routes = [
     {
@@ -14,6 +16,8 @@ const approuts : Routes = [
     {
         path:'login', component:UserloginComponent
     },
+    {   path: 'profile',  component: ProfileComponent,canActivate:[AuthGuard] },
+
     {
         path:'users', component:UsersComponent,canActivate:[AuthGuard]
     },
@@ -23,8 +27,9 @@ const approuts : Routes = [
     {   
         path: 'reset/:id1/:id2/:id3',  component: ResetpasswordComponent
     },
-    {   path: 'uom',  component: UnitofmeasuersComponent },
-    {   path: 'hsn',  component: HsncodesComponent },
+    {   path: 'uom',  component: UnitofmeasuersComponent,canActivate:[AuthGuard] },
+    {   path: 'hsn',  component: HsncodesComponent,canActivate:[AuthGuard] },
+    {   path: 'taxgroups',  component: TaxgroupsComponent,canActivate:[AuthGuard] },
 
 
     { path: '', redirectTo: '', pathMatch: 'full' },

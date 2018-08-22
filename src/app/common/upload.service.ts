@@ -22,18 +22,19 @@ export class UploadService {
       
         
     // if user is logged in, append token to header
-   
-      console.log(data.remarks, 'fiules');
+  
+    
       const length: any = files.length;
       for (let i = 0; i < files.length; i++) {
         formData.append('file', files[i], files[i].name);
         formData.append('length', length);
+   
       }
      
       xhr.onreadystatechange = () => {
         if (xhr.readyState === 4) {
           if (xhr.status === 200) {
-             observer.next(1);
+             observer.next(xhr.response);
             observer.complete();
           } else {
             observer.error(xhr.response);
@@ -50,7 +51,8 @@ export class UploadService {
       xhr.setRequestHeader("token", localStorage.getItem('token'));
       xhr.setRequestHeader("uploadpath", 'users');
       const serverFileName = xhr.send(formData);
-      return serverFileName;
+       
+      return xhr.response;
     });
   }
 

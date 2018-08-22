@@ -20,7 +20,7 @@ import { Url } from "./common/url";
 export class UsersService {
   reg_user = [];
   userlogin = false;
-  userdata: any = [];
+   
   constructor(public _http: Http) {
 
   }
@@ -91,6 +91,10 @@ export class UsersService {
       case 'get':
         return this._http
           .get(url, options)
+          .pipe(map((response: Response) => response.json()));
+      case 'put':
+        return this._http
+          .put(url,body, options)
           .pipe(map((response: Response) => response.json()));
     }
   }

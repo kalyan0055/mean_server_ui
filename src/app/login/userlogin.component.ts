@@ -17,7 +17,8 @@ export class UserloginComponent implements OnInit {
   name: any;
   msg;
   password_status = false;
-  loginForm: FormGroup
+  loginForm: FormGroup;
+
   constructor(public router: Router,public Auth:AuthenticationService,public toaster: ToastrService,public US:UserserviceService) { }
 
   ngOnInit() {
@@ -40,6 +41,8 @@ export class UserloginComponent implements OnInit {
         localStorage.setItem('name',res.data.username)
         localStorage.setItem('email',res.data.email)
         localStorage.setItem('token',res.token)
+        localStorage.setItem('profileImageURL',res.data.profileImageURL)
+        this.US.userdata =  localStorage.setItem('userInfo',JSON.stringify({firstName:res.data.firstName,lastName:res.data.lastName,middleName:res.data.middleName,mobile:res.data.mobile}));
         this.US.userdata = res.data;
         this.toaster.success(msg,'Success');
         this.router.navigate(['users']);

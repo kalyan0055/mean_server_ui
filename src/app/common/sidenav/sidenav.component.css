@@ -1,0 +1,36 @@
+ 
+ /* .ng-valid[required], .ng-valid.required  {
+    border: 2px solid #42A948;  
+  } */
+  /* 
+  .ng-invalid:not(form)  {
+    border: 1px solid #a94442; 
+  } */
+ 
+ 
+ 
+
+ 
+.unselectable{
+  background-color: #ddd;
+  cursor: not-allowed;
+}
+/* .backimage { background-color: rgb(104, 104, 206); } */
+
+.main{
+  padding: 20px 20px 20px 20px;
+}
+    
+/* .backimage{
+  background-image: url("../../assets/utility_images/Delete.png"); 
+} */
+
+.divwidth{
+  height: 800px
+}
+.divwidth1{
+  height: 800px
+}
+.space{
+    white-space: pre !important;
+}

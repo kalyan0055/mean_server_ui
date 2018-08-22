@@ -24,45 +24,56 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class DatatablesPipe implements PipeTransform {
   keys = [];
-  transform(array: any[], query: string): any {
-    if (query === '') {
-      return array;
-    }
+  transform(value: any[], args: string): any {
+    if(!value)return null;
+    if(!args)return value;
 
-    if (array != null && array.length > 0) {
-      const ans = [];
-      if (this.keys.length === 0) {
-        this.keys = Object.keys(array[0]);
-      }
-      for (const i of array) {
-        for (const k of this.keys) {
-          if (i[k] != null && i[k] !== undefined) {
-            if (typeof i[k] !== 'number' && typeof i[k] !== 'object') {
-              // console.log(i[k] ,' pipe test',typeof i[k]);
-              if (
-                i[k].toLowerCase().match('^.*' + query.toLowerCase() + '.*$')
-              ) {
-                ans.push(i);
-                break;
-              }
-            } else {
-              const p = i[k].toString();
-              let prev = '';
-              for (let j = 0; j < p.length; j++) {
-                prev = prev + p[j];
-                if (prev === query) {
-                  ans.push(i);
-                  break;
-                }
-              }
-            }
-          }
-        }
-      }
-      return ans;
-    } else {
-      return [];
-    }
+    args = args.toLowerCase();
+
+    return value.filter(function(item){
+        return JSON.stringify(item).toLowerCase().includes(args);
+    });
+  // it.toLowerCase().includes(query);
+  
+    // if (query === '') {
+    //   return array;
+    // }
+
+    // if (array != null && array.length > 0) {
+    //   const ans = [];
+    //   if (this.keys.length === 0) {
+    //     this.keys = Object.keys(array[0]);
+    //   }
+    //   for (const i of array) {
+    //     for (const k of this.keys) {
+        
+          
+    //       if (i[k] != null && i[k] !== undefined) {
+    //         if (typeof i[k] !== 'number' && typeof i[k] !== 'object' && typeof i[k] !== 'boolean' ) {
+    //           if (
+    //             i[k].toLowerCase().match('^.*' + query.toLowerCase() + '.*$')
+    //           ) {
+    //             ans.push(i);
+    //             break;
+    //           }
+    //         } else {
+    //           const p = i[k].toString();
+    //           let prev = '';
+    //           for (let j = 0; j < p.length; j++) {
+    //             prev = prev + p[j];
+    //             if (prev === query) {
+    //               ans.push(i);
+    //               break;
+    //             }
+    //           }
+    //         }
+    //       }
+    //     }
+    //   }
+    //   return ans;
+    // } else {
+    //   return [];
+    // }
   }
 }
 

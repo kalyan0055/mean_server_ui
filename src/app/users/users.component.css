@@ -67,7 +67,10 @@ a{
   height: 800px
 }
 .deletecolor{
-  background-colore:#eacad0;
+  background-color:#eacad0;
+}
+.inactive{
+    background-color:rgb(104, 104, 206)
 }
 /* 
 .fa-passwd-reset > .fa-lock {

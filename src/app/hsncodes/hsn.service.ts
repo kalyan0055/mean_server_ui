@@ -8,8 +8,23 @@ import { Url } from "../common/url";
 export class HsnService {
 
   constructor(private US:UsersService) { }
-  get_uoms(){
+  get_hsns(pageSize,currentPage){
+    let queryParams=`?pageSize=${pageSize}&page=${currentPage}`;
     let body={}
-    return this.US.callApi(Url.API.HSN_CODES,'get',body);
+    return this.US.callApi(Url.API.HSN_CODES+queryParams,'get',body);
+  }
+
+  addHSN(value){
+    let body=value
+    return this.US.callApi(Url.API.addHSN,'post',body);
+  }
+  updateHSN(value){
+    let body=value
+    return this.US.callApi(Url.API.UPDATEHSN,'post',body);
+  }
+
+  delete_HSN(id){
+  let body={_id:id}
+  return this.US.callApi(Url.API.UPDATEHSN,'post',body);
   }
 }
