@@ -4,17 +4,17 @@ import {
   Validators, AbstractControl, ValidatorFn
 } from '@angular/forms';
 //import { Router, Routes } from "@angular/router";
-import { UserserviceService } from '../users/userservice.service';
+import { UserserviceService } from '../adminusers/userservice.service';
 import { ToastrService } from 'ngx-toastr';
 import { UploadService } from 'src/app/common/upload.service';
 import { UsersService } from '../users.service';
 
 @Component({
-  selector: 'app-users',
-  templateUrl: './users.component.html',
-  styleUrls: ['./users.component.css']
+  selector: 'app-normalusers',
+  templateUrl: './normalusers.component.html',
+  styleUrls: ['./normalusers.component.css']
 })
-export class UsersComponent implements OnInit {
+export class NormalusersComponent implements OnInit {
   logindata = { 'username': '', password: '' }
   model = { username: '', email: '', mobile: '', password: '', conf_password: '' }
   name: any;

@@ -1,0 +1,14 @@
+a.snapchat img {
+    position: absolute !important;
+    opacity: 0;
+    width: 100px;
+    height: 100px;
+    left: 0;
+    top: -20px;
+    transition: opacity .5s, top .5s;
+  }
+  
+  a.snapchat:focus img {
+    opacity: 1;
+    top: 20px;
+  }

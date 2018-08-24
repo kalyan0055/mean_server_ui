@@ -62,9 +62,9 @@
                 <th style="width: 10%">
                   <mfDefaultSorter by="Description">Descripton </mfDefaultSorter>
                 </th>
-                <th style="width: 10%">
+                <!-- <th style="width: 10%">
                   <mfDefaultSorter by="Description">Options </mfDefaultSorter>
-                </th>
+                </th> -->
               </tr>
             </thead>
 
@@ -77,12 +77,11 @@
                 <td>{{t.uqcCode}}</td>
                 <td>{{t.quantityType}}</td>
                 <td>{{t.description}}</td>
-                <td><a [ngClass]="{'unselectable':t.disabled}" (click)="delete_popup(t)" data-toggle="modal" style="margin-right: 5px; margin-left: 5px;" data-target=".delete" class="btn btn-sm btn-success">
+                <!-- <td><a [ngClass]="{'unselectable':t.disabled}" (click)="delete_popup(t)" data-toggle="modal" style="margin-right: 5px; margin-left: 5px;" data-target=".delete" class="btn btn-sm btn-success">
                   <i class="fas fa-eye"></i>
                 </a>
-
-                </td>
-
+                </td> -->
+                 
                 <!-- <td>
                   <button [disabled]="t.disabled" class="btn btn-sm btn-success" (click)="disable_popup(t)"  data-toggle="modal"
                     data-target=".disable">
@@ -170,6 +169,7 @@
                               <!-- <mat-error *ngIf="UOM_FORM.controls['uqcCode'].hasError('pattern')">Mobile numberr should be only numbers</mat-error> -->
                             </mat-error>
                           </mat-form-field>
+                          
                         </div>
                         <div class="col-md-4"  >
                           <mat-form-field> 
@@ -178,19 +178,22 @@
                          </mat-form-field>
                         </div>
                         <div class="col-md-4">
-                         <mat-form-field>
+                        
                             <!-- <mat-select placeholder="Select" formControlName="type" required>
                                 <mat-option  value="Simple">Simple</mat-option>
                                 <mat-option  value="Compound">Compound</mat-option>                         
                               </mat-select>  -->
-                              <mat-select placeholder="Color" formControlName="type">
-                                  <mat-option value="Simple">Simple</mat-option>
-                                  <mat-option value="Compound">Compound</mat-option>
-                                  <mat-option value="warn">Warn</mat-option>
-                                </mat-select>
-                              <mat-error *ngIf="UOM_FORM.controls['type'].hasError('required')"> Please select type </mat-error>
-                        
-                            </mat-form-field>
+                            
+                              <ng-template style="border: 0px" >
+                              <mat-form-field>
+                                            <mat-select  formControlName="type"  [(ngModel)]="currentCity" name="Paris">
+                                              <mat-option *ngFor="let city of types" [value]="city.type">
+                                                {{ city.type }}
+                                              </mat-option>
+                                            </mat-select>
+                                          </mat-form-field>
+                                       </ng-template>
+
                             <!-- select class="form-control"  formControlName="type" required>
                                 <option  *ngFor="let t of types;" value="t.tyep">{{t.type}}</option>
                               </select> -->

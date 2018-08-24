@@ -1,13 +1,14 @@
 import { Routes,RouterModule } from "@angular/router";
 import {UserloginComponent} from '../login/userlogin.component';
 import { AuthGuard } from '../common/auth.guard';
-import {UsersComponent  } from "../users/users.component";
+import {UsersComponent  } from "../adminusers/users.component";
 import { EmailAuthComponent } from '../email-auth/email-auth.component';
 import { ResetpasswordComponent } from '../resetpassword/resetpassword.component';
 import { UnitofmeasuersComponent } from '../unitofmeasuers/unitofmeasuers.component';
 import { HsncodesComponent } from '../hsncodes/hsncodes.component';
 import { TaxgroupsComponent } from '../taxgroups/taxgroups.component';
 import { ProfileComponent } from '../profile/profile.component';
+import { CategoriesComponent } from '../categories/categories.component';
  
 const approuts : Routes = [
     {
@@ -30,7 +31,9 @@ const approuts : Routes = [
     {   path: 'uom',  component: UnitofmeasuersComponent,canActivate:[AuthGuard] },
     {   path: 'hsn',  component: HsncodesComponent,canActivate:[AuthGuard] },
     {   path: 'taxgroups',  component: TaxgroupsComponent,canActivate:[AuthGuard] },
+    {   path: 'category',  component: CategoriesComponent,canActivate:[AuthGuard] },
 
+    
 
     { path: '', redirectTo: '', pathMatch: 'full' },
     { path: '**', redirectTo: 'users', pathMatch: 'full' }

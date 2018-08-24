@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, } from "@angular/forms";
-import { UserserviceService } from "../users/userservice.service";
+import { UserserviceService } from "../adminusers/userservice.service";
 import { ProfileService } from 'src/app/profile/profile.service';
 import { ToastrService } from 'ngx-toastr';
 import { UploadService } from 'src/app/common/upload.service';
@@ -20,9 +20,11 @@ export class ProfileComponent implements OnInit {
   userdata: any;
   url = environment.url;
   profileImageURL: string;
+  email: any;
   constructor(private fb: FormBuilder, public UPLOAD: UploadService, public US: UserserviceService, public PS: ProfileService, private toastr: ToastrService) {
     this.userdata = JSON.parse(localStorage.getItem('userInfo'))
     this.profileImageURL = localStorage.getItem('profileImageURL');
+    this.email = localStorage.getItem('email');
   }
 
   ngOnInit() {

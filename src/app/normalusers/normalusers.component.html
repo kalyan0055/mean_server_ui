@@ -2,18 +2,8 @@
 
 </app-header>
 <div class="row">
-  <!-- <div class="col-md-2 " style="background-color: #c0daf3!important;" [ngClass]="{'divwidth1':nvipani,'divwidth':!nvipani}">
-    <mat-nav-list>
-      <a mat-list-item [routerLink]="['/user']">Admin Users</a>
-      <a mat-list-item [routerLink]="['/uom']">Unit Of Measures</a>
-      <a mat-list-item [routerLink]="['/hsn']">HSN CODES</a>
-
-    </mat-nav-list>
-  </div> -->
   <app-sidenav style="background-color: #bcdefb;"></app-sidenav>
   <div class="col-md-10 main">
-    <!-- <div class="grid-container"> -->
-    <!-- <h1 class="mat-h1">Dashboard</h1> -->
     <div class="" [ngClass]="(nvipani)?'card1':'card'">
       <div class="card">
         <div class="card-header ">
@@ -75,16 +65,20 @@
             <tbody *ngFor="let t of mf.data; let i=index; let k=index;">
               <tr [ngClass]="{'deletecolor':t.deleted,'inactive':t.disabled}">
                 <th scope="row">{{tabaledata.indexOf(t)+1}}</th>
-                <td>{{t.username}}</td>
+                <td>{{t.firstName}}{{t.middleName}}{{t.lastName}}</td>
                 <td>{{t.email}}</td>
                 <td>{{t.mobile}}</td>
                 <td>{{t.status}}</td>
                 <td >
-                  <button [disabled]="t.disabled" class="btn btn-sm btn-success" (click)="disable_popup(t)"  data-toggle="modal"
+                  <button *ngIf="!t.disabled" class="btn btn-sm btn-default" (click)="disable_popup(t)"  data-toggle="modal"
                     data-target=".disable">
                     <i class="fas fa-user-lock"></i>
                   </button>
-
+                  <button *ngIf="t.disabled" class="btn btn-sm btn-success" (click)="disable_popup(t)"  data-toggle="modal"
+                    data-target=".disable">
+                    <i class="fas fa-user"></i>
+                  </button>
+                 
                   <a [ngClass]="{'unselectable':t.disabled}" (click)="delete_popup(t)" data-toggle="modal" style="margin-right: 5px; margin-left: 5px;" data-target=".delete" class="btn btn-sm btn-danger">
                     <i class="fas fa-trash"></i>
                   </a>
@@ -310,7 +304,7 @@
     </div>
     <!-- </div> -->
 
-<!--> Reset popup -->
+<!-- Reset popup -->
 <div class="modal fade reset" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content" *ngIf="reset_Data">

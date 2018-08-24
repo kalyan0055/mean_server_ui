@@ -23,12 +23,10 @@ export class UploadService {
         
     // if user is logged in, append token to header
   
-    
-      const length: any = files.length;
+     const length: any = files.length;
       for (let i = 0; i < files.length; i++) {
         formData.append('file', files[i], files[i].name);
         formData.append('length', length);
-   
       }
      
       xhr.onreadystatechange = () => {
@@ -56,39 +54,41 @@ export class UploadService {
     });
   }
 
-  makeFileRequest1( url: string, files: File[], data: any = ''): Observable<any> {
+  mCategoryUpload( url: string, files: File[], data: any = ''): Observable<any> {
     return Observable.create(observer => {
       const formData: FormData = new FormData(),
         xhr: XMLHttpRequest = new XMLHttpRequest();
-      console.log(data.data, 'rambabu');
+      console.log(data, 'rambabu');
       const length: any = files.length;
       for (let i = 0; i < files.length; i++) {
         formData.append('file', files[i], files[i].name);
         formData.append('length', length);
-        formData.append('data', data.data);
-        formData.append('part_id', data.part_id);
-      }
-      xhr.onreadystatechange = () => {
-        if (xhr.readyState === 4) {
-          if (xhr.status === 200) {
-            observer.next(JSON.parse(xhr.response));
-            observer.complete();
-          } else {
-            observer.error(xhr.response);
-          }
+        formData.append('name', data.name);
+        formData.append('code', data.code);
+        formData.append('type', data.type);
+
+     }
+     xhr.onreadystatechange = () => {
+      if (xhr.readyState === 4) {
+        if (xhr.status === 200) {
+           observer.next(xhr.response);
+          observer.complete();
+        } else {
+          observer.error(xhr.response);
         }
-      };
+      }
+    };
 
-      xhr.upload.onprogress = event => {
-        this.progress = Math.round(event.loaded / event.total * 100);
+    xhr.upload.onprogress = event => {
+      this.progress = Math.round(event.loaded / event.total * 100);
 
-        this.progressObserver.next(this.progress);
-      };
-
-      xhr.open('POST', url, true);
-      const serverFileName = xhr.send(formData);
-      console.log(serverFileName, 'serverfilename');
-      // return serverFileName;
+     // this.progressObserver.next(1);
+    };
+    xhr.open('POST', url, true);
+    xhr.setRequestHeader("token", localStorage.getItem('token'));
+    xhr.setRequestHeader("uploadpath", 'users');
+    const serverFileName = xhr.send(formData);
+    return xhr.response;
     });
   }
  

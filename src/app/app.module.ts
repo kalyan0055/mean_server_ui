@@ -47,7 +47,7 @@ import {Url} from './common/url';
 import {approutes } from "./common/routings";
 import {UserloginComponent} from './login/userlogin.component';
 import { AuthGuard } from './common/auth.guard';
-import {UsersComponent  } from "./users/users.component";
+import {UsersComponent  } from "./adminusers/users.component";
 import { EmailAuthComponent } from './email-auth/email-auth.component';
 import { HeaderComponent } from './common/header/header.component';
 import { SidenavComponent } from './common/sidenav/sidenav.component';
@@ -57,6 +57,8 @@ import { HsncodesComponent } from './hsncodes/hsncodes.component';
 import {DropdownModule} from 'primeng/dropdown';
 import { TaxgroupsComponent } from './taxgroups/taxgroups.component';
 import { ProfileComponent } from './profile/profile.component';
+import { NormalusersComponent } from './normalusers/normalusers.component';
+import { CategoriesComponent } from './categories/categories.component';
  
 @NgModule({
   declarations: [
@@ -71,7 +73,9 @@ import { ProfileComponent } from './profile/profile.component';
     UnitofmeasuersComponent,
     HsncodesComponent,
     TaxgroupsComponent,
-    ProfileComponent
+    ProfileComponent,
+    NormalusersComponent,
+    CategoriesComponent
     
   ],
   imports: [

@@ -20,13 +20,13 @@ import { Url } from "./common/url";
 export class UsersService {
   reg_user = [];
   userlogin = false;
-   
+  userdata;
   constructor(public _http: Http) {
 
   }
   getNewUsers() {
     let body = {}
-    return this.callApi(Url.API.newUsersist, 'get', body);
+    return this.callApi(Url.API.newUsersist+'/'+localStorage.getItem('userid'), 'get', body);
   }
   register(value) {
     if (value._id) {
@@ -44,13 +44,7 @@ export class UsersService {
     return this.callApi(Url.API.DELETE_USER, 'post', body)
   }
 
-  userinfo_vimage(value) {
-    return this.callApi(Url.API.USER_INFO_VIMAGE, 'post', value)
-  }
-
-  userinfo_update_vimage(value) {
-    return this.callApi(Url.API.USERINFO_UPDATE_VIMAGE, 'post', value)
-  }
+ 
   regViaemail(arg0: any): any {
     return this.callApi(Url.API.regViaemail, 'post', arg0)
   }

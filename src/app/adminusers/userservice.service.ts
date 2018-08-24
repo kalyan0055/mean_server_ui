@@ -18,10 +18,7 @@ export class UserserviceService {
     let body = {}
      return this.callApi('http://192.168.0.110:8081/authentication/users','get',body);
    }
-   register(value){
-    console.log(value);   
-    return this.callApi(Url.API.register,'post',value)
-  }
+    
   AddUserInfo(value){
     return this.callApi(Url.API.USER_INFO,'post',value)
   }
@@ -35,14 +32,7 @@ export class UserserviceService {
     return this.callApi(Url.API.DELETE_USER,'post',body)
   }
   
-  userinfo_vimage(value){
-    return this.callApi(Url.API.USER_INFO_VIMAGE,'post',value)
-  }
-
-  userinfo_update_vimage(value){
-    return this.callApi(Url.API.USERINFO_UPDATE_VIMAGE,'post',value)
-  }
-
+  
   regViaemail(value){
     return this.callApi(Url.API.regViaemail,'post',value)
   }

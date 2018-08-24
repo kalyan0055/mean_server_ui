@@ -21,7 +21,7 @@ import {
 } from '@angular/forms';
 import { AuthenticationService } from "../common/authentication.service";
 import { ToastrService } from 'ngx-toastr';
-import { UserserviceService } from "../users/userservice.service";
+import { UserserviceService } from "../adminusers/userservice.service";
 import { ActivatedRoute } from '@angular/router';
 import { Location } from "@angular/common";
 import { RegistrationValidator } from '../common/password-validator';

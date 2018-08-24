@@ -90,7 +90,7 @@
                     <div class="col-md-6">
                       <div class="row">
                         <label class="col-md-5 control-label">Email:</label>
-                        <div class="col-md-7 controls">{{(userdata.email)?userdata.email:'--'}}</div>
+                        <div class="col-md-7 controls">{{email}}</div>
                         <!-- col-sm-10 -->
                       </div>
                     </div>
@@ -138,16 +138,14 @@
                       <div class="col-md-3">
                         <mat-form-field>
                           <input matInput placeholder="Middle Name" formControlName="middleName" >
-                          <mat-error *ngIf="profile.controls['middleName'].hasError('required')">Middle Name is required
-                          </mat-error>
                         </mat-form-field>
                       </div>
                       <div class="col-md-3">
                         <mat-form-field>
                           <input matInput placeholder="Last Name" formControlName="lastName" >
-                          <mat-error *ngIf="!profile.controls['lastName'].valid || !profile.controls['lastName'].pristine">
+                          <!-- <mat-error *ngIf="!profile.controls['lastName'].valid || !profile.controls['lastName'].pristine">
                             <mat-error *ngIf="profile.controls['lastName'].hasError('required')">lastName is required</mat-error>
-                          </mat-error>
+                          </mat-error> -->
                         </mat-form-field>
                       </div>
                       <div class="col-md-3">
