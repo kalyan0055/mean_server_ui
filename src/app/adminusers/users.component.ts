@@ -13,14 +13,14 @@ import { UsersService } from '../users.service';
   selector: 'app-users',
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.css']
-}) 
+})
 export class UsersComponent implements OnInit {
   logindata = { 'username': '', password: '' }
   model = { username: '', email: '', mobile: '', password: '', conf_password: '' }
   name: any;
   msg;
   password_status = false;
-  tabaledata: any ;
+  tabaledata: any;
   loginForm: FormGroup;
   REG_FORM: FormGroup;
   REG_FORM1: FormGroup;
@@ -41,14 +41,14 @@ export class UsersComponent implements OnInit {
   disable_Data;
   reset_Data;
   usertype;
-  constructor(public fb: FormBuilder, public US: UsersService, private toastr: ToastrService, private UPS: UploadService) { 
+  constructor(public fb: FormBuilder, public US: UsersService, private toastr: ToastrService, private UPS: UploadService) {
     this.usertype = localStorage.getItem('usertype');
   }
 
 
   ngOnInit() {
     this.US.userlogin = false;
-     this.loginForm1 = this.fb.group({
+    this.loginForm1 = this.fb.group({
       image: ['']
     })
     this.REG_FORM1 = this.fb.group({
@@ -61,7 +61,7 @@ export class UsersComponent implements OnInit {
     this.loading = true;
     this.US.getNewUsers().subscribe((res) => {
       console.log(res);
-     
+
       if (res.data) {
         this.tabaledata = res.data;
         this.loading = false;
@@ -78,9 +78,9 @@ export class UsersComponent implements OnInit {
   }
 
 
-  
 
-  
+
+
   // --- NVIPANI FUNCTIONS
 
 
@@ -93,7 +93,7 @@ export class UsersComponent implements OnInit {
 
   onSearchChange(value) {
     var trigger = value,
-    regexp = new RegExp('@nvipani.com');
+      regexp = new RegExp('@nvipani.com');
     this.test = regexp.test(trigger);
     if (!this.REG_FORM1.valid || !this.test) {
       this.emailerror = true;
@@ -115,7 +115,7 @@ export class UsersComponent implements OnInit {
     })
   }
 
-  
+
 
   // sendPasswordLinkd() {
   //   if (this.reset_pwd_Data != null && Object.keys(this.reset_pwd_Data).length > 0) {
@@ -137,9 +137,8 @@ export class UsersComponent implements OnInit {
       console.log(res.data);
       if (res.status) {
         this.toastr.error('Successfully Deleted!', 'Thank you!');
-        // this.router.navigate(['login']);
         this.getNewUsers();
-        this.delete_Data='';
+        this.delete_Data = '';
       } else {
         this.US.userlogin = res.success;
         this.toastr.warning('Unable to delete', 'Error');
@@ -151,23 +150,26 @@ export class UsersComponent implements OnInit {
     this.delete_Data = t;
   }
   disable(t) {
-    this.US.disable_User(t._id).subscribe((res) => {
-      console.log(res.data);
-      if (res.status) {
-        this.toastr.error('Successfully Disabled!', 'Thank you!');
-        // this.router.navigate(['login']);
-        this.getNewUsers();
-        this.disable_Data='';
-      } else {
-        this.toastr.warning('Unable to Disable', 'Error');
-      }
-    });
+    if (this.type != null) {
+      this.US.disable_User(t._id, this.type).subscribe((res) => {
+        console.log(res.data);
+        if (res.status) {
+          this.toastr.error('Successfully ' + `${this.type}d`, 'Thank you!');
+          this.getNewUsers();
+          this.disable_Data = '';
+        } else {
+          this.toastr.warning('Unable to ' + `${this.type}d`, 'Error');
+        }
+      });
+    }
   }
-  disable_popup(t) {
+  type: string = null;
+  disable_popup(t, type) {
     console.log(t);
+    this.type = type;
     this.disable_Data = t;
   }
-  
+
   reset_popup(t) {
     console.log(t);
     this.reset_Data = t;

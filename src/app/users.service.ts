@@ -57,8 +57,8 @@ export class UsersService {
     return this.callApi(Url.API.SENDPASSWORDLINK, 'post', value)
   }
 
-  disable_User(_id) {
-    let body = { id: _id }
+  disable_User(_id,type) {
+    let body = { id: _id,type:type }
     return this.callApi(Url.API.DISABLE_USER, 'post', body)
   }
 

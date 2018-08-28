@@ -45,6 +45,9 @@ export class Url {
         //CATEGORIES
 
         CREATE_MAIN_CATEGORY : environment.url+'createMainCategory',
-        MAIN_CATEGORIES_LIST : environment.url + 'createMainCategory'
+        UPDATE_MAIN_CATEGORY:environment.url+'createMainCategory/update',
+        MAIN_CATEGORIES_LIST : environment.url + 'createMainCategory',
+        MAIN_CATEGORIES_DISABLE_ENABLE : environment.url + 'categories/disable',
+        
 }   
 }

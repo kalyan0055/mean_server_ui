@@ -57,9 +57,10 @@ import { HsncodesComponent } from './hsncodes/hsncodes.component';
 import {DropdownModule} from 'primeng/dropdown';
 import { TaxgroupsComponent } from './taxgroups/taxgroups.component';
 import { ProfileComponent } from './profile/profile.component';
-import { NormalusersComponent } from './normalusers/normalusers.component';
+// import { NormalusersComponent } from './normalusers/normalusers.component';
 import { CategoriesComponent } from './categories/categories.component';
- 
+import {InputSwitchModule} from 'primeng/inputswitch';
+import {TooltipModule} from 'primeng/tooltip';
 @NgModule({
   declarations: [
     AppComponent,
@@ -74,7 +75,6 @@ import { CategoriesComponent } from './categories/categories.component';
     HsncodesComponent,
     TaxgroupsComponent,
     ProfileComponent,
-    NormalusersComponent,
     CategoriesComponent
     
   ],
@@ -118,7 +118,8 @@ import { CategoriesComponent } from './categories/categories.component';
     approutes,
     DataTableModule,
     DropdownModule,
- 
+    InputSwitchModule,
+    TooltipModule
   ],
   providers: [UploadService,AuthGuard],
   bootstrap: [AppComponent]

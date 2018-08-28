@@ -22,4 +22,11 @@ export class MCategoryService {
      let body={}
     return this.US.callApi(Url.API.MAIN_CATEGORIES_LIST,'get',body);
    }
+
+   disable_MainCategory(_id,type) {
+    let body = { id: _id,type:type }
+    return this.US.callApi(Url.API.MAIN_CATEGORIES_DISABLE_ENABLE, 'post', body)
+  }
+
+
 }

@@ -66,8 +66,7 @@ export class UploadService {
         formData.append('name', data.name);
         formData.append('code', data.code);
         formData.append('type', data.type);
-
-     }
+    }
      xhr.onreadystatechange = () => {
       if (xhr.readyState === 4) {
         if (xhr.status === 200) {
@@ -92,7 +91,45 @@ export class UploadService {
     });
   }
  
+  mCategoryUpdate( url: string, files: File[], data: any = ''): Observable<any> {
+    return Observable.create(observer => {
+      const formData: FormData = new FormData(),
+        xhr: XMLHttpRequest = new XMLHttpRequest();
+      console.log(data, 'rambabu');
+      const length: any = files.length;
+      for (let i = 0; i < files.length; i++) {
+        formData.append('file', files[i], files[i].name);
+        formData.append('name', data.name);
+        formData.append('code', data.code);
+        formData.append('type', data.type);
+        formData.append('_id', data._id);
 
+
+     }
+     xhr.onreadystatechange = () => {
+      if (xhr.readyState === 4) {
+        if (xhr.status === 200) {
+           observer.next(xhr.response);
+          observer.complete();
+        } else {
+          observer.error(xhr.response);
+        }
+      }
+    };
+
+    xhr.upload.onprogress = event => {
+      this.progress = Math.round(event.loaded / event.total * 100);
+
+     // this.progressObserver.next(1);
+    };
+    xhr.open('POST', url, true);
+    xhr.setRequestHeader("token", localStorage.getItem('token'));
+    xhr.setRequestHeader("uploadpath", 'maincategory');
+    const serverFileName = xhr.send(formData);
+    return xhr.response;
+    });
+  }
+ 
   makeFileRequest_new(url: string, files: File[]): Observable<any> {
     return Observable.create(observer => {
       const formData: FormData = new FormData(),
