@@ -58,9 +58,11 @@ import {DropdownModule} from 'primeng/dropdown';
 import { TaxgroupsComponent } from './taxgroups/taxgroups.component';
 import { ProfileComponent } from './profile/profile.component';
 // import { NormalusersComponent } from './normalusers/normalusers.component';
-import { CategoriesComponent } from './categories/categories.component';
+import { CategoriesComponent } from './categories/main-categories/categories.component';
 import {InputSwitchModule} from 'primeng/inputswitch';
 import {TooltipModule} from 'primeng/tooltip';
+import { SubcategoiresComponent } from './categories/sub-categories/subcategoires.component';
+ 
 @NgModule({
   declarations: [
     AppComponent,
@@ -75,7 +77,9 @@ import {TooltipModule} from 'primeng/tooltip';
     HsncodesComponent,
     TaxgroupsComponent,
     ProfileComponent,
-    CategoriesComponent
+    CategoriesComponent,
+    SubcategoiresComponent
+     
     
   ],
   imports: [

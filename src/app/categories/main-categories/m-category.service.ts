@@ -4,8 +4,8 @@ import { Http, Headers, Response, RequestOptions } from '@angular/http';
 import { Observable, Subject, pipe } from 'rxjs';
 // operators all come from `rxjs/operators`
 import { map } from 'rxjs/operators';
-import { Url } from "../common/url";
-import { UsersService } from '../users.service';
+import { Url } from "../../common/url";
+import { UsersService } from '../../users.service';
 
 @Injectable({
   providedIn: 'root'

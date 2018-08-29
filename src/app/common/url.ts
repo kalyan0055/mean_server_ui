@@ -43,11 +43,14 @@ export class Url {
         TAXGROUP_DELETE : environment.url + 'deleteTaxGroups',
 
         //CATEGORIES
-
-        CREATE_MAIN_CATEGORY : environment.url+'createMainCategory',
+        
+        CREATE_MAIN_CATEGORY : environment.url+'createMainCategory',  //Create Main/Sub Categoires with file
         UPDATE_MAIN_CATEGORY:environment.url+'createMainCategory/update',
         MAIN_CATEGORIES_LIST : environment.url + 'createMainCategory',
         MAIN_CATEGORIES_DISABLE_ENABLE : environment.url + 'categories/disable',
-        
+        CREATE_SUB_CATEGORIES : environment.url+'createMainCategory', //Create Main/Sub Categoires without file
+        UPDATE_SUB_CATEGORIES:environment.url+'createMainCategory/update',//Update Main/Sub Categoires without file
+            //Sub Categories
+        SUB_CATEGORIES1_LIST : environment.url + 'querySubCategories1',
 }   
 }

@@ -60,12 +60,22 @@ export class UploadService {
         xhr: XMLHttpRequest = new XMLHttpRequest();
       console.log(data, 'rambabu');
       const length: any = files.length;
+      var uploadpath:string=null;
       for (let i = 0; i < files.length; i++) {
         formData.append('file', files[i], files[i].name);
         formData.append('length', length);
         formData.append('name', data.name);
         formData.append('code', data.code);
         formData.append('type', data.type);
+        if(data.type ==='MainCategory'){
+          uploadpath = 'maincategory'
+        }else if(data.type ==='SubCategory1'){
+          uploadpath = 'subcategory1';
+          formData.append('parent', data.parent);
+        }else{
+          uploadpath = 'subcategory2'
+        }
+         
     }
      xhr.onreadystatechange = () => {
       if (xhr.readyState === 4) {
@@ -85,7 +95,7 @@ export class UploadService {
     };
     xhr.open('POST', url, true);
     xhr.setRequestHeader("token", localStorage.getItem('token'));
-    xhr.setRequestHeader("uploadpath", 'users');
+    xhr.setRequestHeader("uploadpath", uploadpath);
     const serverFileName = xhr.send(formData);
     return xhr.response;
     });
@@ -103,8 +113,6 @@ export class UploadService {
         formData.append('code', data.code);
         formData.append('type', data.type);
         formData.append('_id', data._id);
-
-
      }
      xhr.onreadystatechange = () => {
       if (xhr.readyState === 4) {

@@ -1,0 +1,271 @@
+<app-header>
+
+</app-header>
+<div class="row">
+  <app-sidenav style="background-color: #bcdefb;"></app-sidenav>
+  <div class="col-md-10 main">
+    <div class="">
+      <div class="card">
+        <div class="card-header ">
+          <span>{{(!nvipani)?'List of Sub Categories':'Add Sub Category'}}</span>
+
+          <button mat-raised-button (click)="nvipani =!nvipani" class="float-right btn btn-sm" color="accent" *ngIf="!nvipani">
+            <i class="fa fa-plus"></i>
+            <i class="fa fa-user"></i>
+          </button>
+          <button mat-raised-button (click)="nvipani = !nvipani" class="float-right" color="accent" *ngIf="nvipani">Back</button>
+
+        </div>
+        <div class="card-body" *ngIf="!nvipani">
+          <div class="row ">
+            <div class="col-md-3 float-right">
+              <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-search"></i>
+                  </span>
+                </div>
+                <input class="form-control-sm form-control" placeholder="Search" type="text" [(ngModel)]="filterQuery" autocomplete="off"
+                  name="filter">
+              </div>
+            </div>
+          </div>
+
+          <table class="table table-sm table-inverse table-bordered" [mfData]="tabaledata | dataFilter : filterQuery" #mf="mfDataTable"
+            [mfRowsOnPage]="rowsOnPage" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+
+            <thead>
+              <tr>
+                <th style="width: 5%">
+                  <mfDefaultSorter by="name">S.No
+
+                  </mfDefaultSorter>
+                </th>
+                <th style="width: 20%">
+                  <mfDefaultSorter by="name">Name </mfDefaultSorter>
+                </th>
+                <th style="width: 10%">
+                  <mfDefaultSorter by="code">Code </mfDefaultSorter>
+                </th>
+
+                <th style="width: 10%">
+                  <mfDefaultSorter by="mobile">Type </mfDefaultSorter>
+                </th>
+                <th style="width: 10%">
+                  <mfDefaultSorter by="">Image </mfDefaultSorter>
+                </th>
+                <th style="width: 10%">
+                  <mfDefaultSorter by="">Options </mfDefaultSorter>
+                </th>
+
+              </tr>
+            </thead>
+
+            <tbody *ngFor="let t of mf.data; let i=index; let k=index;">
+              <tr [ngClass]="{'deletecolor':t.deleted,'inactive':t.disabled}">
+                <th scope="row">{{tabaledata.indexOf(t)+1}}</th>
+                <td>{{t.name}}</td>
+                <td>{{t.code}}</td>
+                <td>{{t.type}} </td>
+                <td>
+                  <a class="snapchat" style="margin: 5px 5px 0 -2px;" target="_blank" href="#">Hover for effect
+                    <img src="{{url}}{{t.categoryImageURL1}}" width="150px" height="150px" /></a>
+                </td>
+                <td>
+                  <button pTooltip="Detials" class="btn btn-sm btn-default" (click)="view_popup(t)" data-toggle="modal" data-target=".view">
+                    <i class="fa fa-eye"></i>
+                  </button>
+                  <button *ngIf="!t.disabled" pTooltip="Disable this Category" class="btn btn-sm btn-default" (click)="disable_popup(t,'Disabled')"
+                    data-toggle="modal" data-target=".disable">
+                    D
+                  </button>
+                  <button *ngIf="t.disabled" pTooltip="Enable this Category" class="btn btn-sm btn-success" (click)="disable_popup(t,'Enabled')"
+                    data-toggle="modal" data-target=".disable">
+                    E
+                  </button>
+
+                  <a [ngClass]="{'unselectable':t.disabled}" (click)="edit(t)" class="btn btn-sm btn-warning">
+                    <i class="fas fa-edit"></i>
+                  </a>
+
+                </td>
+
+              </tr>
+              <tr>
+
+              </tr>
+
+            </tbody>
+            <tbody *ngIf="loading">
+              <tr>
+                <td class="text-center" colspan="13">
+                  <i class="fa fa-spinner fa-spin fa-2x"></i>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot *ngIf="mf.data.length != 0 ">
+              <tr>
+                <td colspan="7">
+                  <mfBootstrapPaginator [rowsOnPageSet]="[10,15,25,50]"></mfBootstrapPaginator>
+                </td>
+              </tr>
+            </tfoot>
+
+          </table>
+
+        </div>
+        <div class="card-body" *ngIf="nvipani">
+          <form method="POST" enctype="multipart/form-data" [formGroup]="main_category">
+
+            <div class="row">
+              <div class="col-md-10" style="margin-right: -50px;">
+                <div class="example-container1">
+                  <mat-form-field>
+                    <input matInput placeholder="Name " type="text" formControlName="name" required>
+                    <mat-error *ngIf="!main_category.controls['name'].hasError"></mat-error>
+                    <mat-error *ngIf="main_category.controls['code'].invalid"></mat-error>
+
+                  </mat-form-field>
+                  <mat-form-field>
+                    <input matInput placeholder="Code " type="text" formControlName="code" required>
+                    <mat-error *ngIf="!main_category.controls['code'].hasError"></mat-error>
+                  </mat-form-field>
+                  <mat-form-field>
+                    <input matInput placeholder="Type " type="text" formControlName="type" required>
+                    <mat-error *ngIf="!main_category.controls['type'].hasError"></mat-error>
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-select placeholder="Main Category" formControlName="parent" (selectionChange)="parentChange($event)">
+                      <mat-option *ngFor="let s of dropDownData" value="{{s._id}}">{{s.name}}-{{s.code}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="mat">
+                  <button mat-stroked-button type="button" (click)="filepicker1.click()">Pic Photo</button>
+                  <input #filepicker1 type="file" id="avatar1" name="image1" formControlName="file" accept="image/png, image/jpeg" (change)="onChange($event)"
+                  />
+                  <img mat-card-image *ngIf="imagepriview" [src]="imagepriview" width="200px" height="200px" alt="Photo of a Shiba Inu">
+
+                </div>
+              </div>
+            </div>
+
+
+            <div class="row mat">
+              <div class="col-md-6">
+                <button type="submit" (click)="nvi_onSubmit()" class="float-right btn btn-primary" [disabled]="!main_category.valid ">Create</button>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade disable" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content" *ngIf="disable_Data">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">{{(type==='Disabled')?'Disable':'Enable'}}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Are Sure you want to {{(type==='Disabled')?'Disable':'Enable'}} this Category ?...
+              <span style="color: red">{{disable_Data.name }}</span>
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+            <button type="button" (click)="disable(disable_Data)" data-dismiss="modal" class="btn btn-primary">Yes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="modal fade delete" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content" *ngIf="delete_Data">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Are Sure you want to Delete this User ...
+              <span style="color: red">{{delete_Data.email }}</span>
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+            <button type="button" (click)="delete(delete_Data)" data-dismiss="modal" class="btn btn-primary">Yes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="modal fade view" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content" *ngIf="viewData">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Details of - {{viewData.name}}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <table class="table table-bordered">
+
+              <tbody>
+
+                <tr>
+                  <td rowspan="3">Sub Category</td>
+                  <td>Name</td>
+                  <td>{{viewData.name}}</td>
+                  <td rowspan="3"> <img src="{{url}}{{viewData.categoryImageURL1}}" width="150px" height="150px" /></td>
+                </tr>
+
+                <tr>
+                  <td>Code</td>
+                  <td>{{viewData.code}}</td>
+                </tr>
+
+                <tr>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td rowspan="3">Main Category</td>
+                  <td>Name</td>
+                  <td>{{viewData.parent.name}}</td>
+                  <td rowspan="3"> <img src="{{url}}{{viewData.parent.categoryImageURL1}}" width="150px" height="150px" /></td>
+                </tr>
+
+                <tr>
+                  <td>Code</td>
+                  <td>{{viewData.parent.code}}</td>
+                </tr>
+
+                <tr>
+                  <td></td>
+                </tr>
+              </tbody>
+
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <!-- <button type="button" (click)="resetPassword(reset_Data)" data-dismiss="modal" class="btn btn-primary">Yes</button> -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</div>

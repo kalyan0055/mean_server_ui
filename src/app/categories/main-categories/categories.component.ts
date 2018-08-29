@@ -2,10 +2,10 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { UploadService } from 'src/app/common/upload.service';
-import { UsersService } from '../users.service';
+import { UsersService } from '../../users.service';
 import { MCategoryService } from './m-category.service';
-import { Url } from '../common/url';
-import { environment } from '../../environments/environment';
+import { Url } from '../../common/url';
+import { environment } from '../../../environments/environment';
 @Component({
   selector: 'app-categories',
   templateUrl: './categories.component.html',
