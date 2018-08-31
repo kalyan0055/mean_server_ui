@@ -167,7 +167,7 @@ export class SubcategoiresComponent implements OnInit {
       this.SCS.update_Sub_Categories(body).subscribe(
         (Res) => {
           if (Res.status) {
-            let msg = `${this.main_category.value.name}` + 'Updated Successfully';
+            let msg = `${this.main_category.value.name}` + ' Updated Successfully';
             this.commonFunction('updated', msg);
           } else {
             this.commonFunction('error');

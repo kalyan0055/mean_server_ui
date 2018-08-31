@@ -110,42 +110,97 @@ export class CategoriesComponent implements OnInit {
 
   fileupload(body) {
     console.log(this.updateId);
-
+    if(this.files){
+      if (this.updateId) {
+        body._id = this.updateId;
+        console.log(body);
+        this.UPS.mCategoryUpdate(Url.API.UPDATE_MAIN_CATEGORY, this.files, body).subscribe(
+          (Res) => {
+            this.main_category.reset();
+            this.toastr.success(`${this.main_category.value.name}` + 'Updated Successfully', 'Thank you!');
+            this.MainCategoriesList();
+            this.nvipani = false;
+  
+          })
+      } else {
+        this.UPS.mCategoryUpload(Url.API.CREATE_MAIN_CATEGORY, this.files, body).subscribe(
+          (Res) => {
+            this.main_category.reset();
+            this.toastr.success(`${this.main_category.value.name}` + 'Created Successfully', 'Thank you!');
+            this.MainCategoriesList();
+            this.nvipani = false;
+            this.updateId = null;
+          })
+      }
+  
+    }else{
+      this.SubmitwithoutFile(body);
+    }
+   
+  }
+  
+  SubmitwithoutFile(body){
     if (this.updateId) {
       body._id = this.updateId;
-      console.log(body);
-      this.UPS.mCategoryUpdate(Url.API.UPDATE_MAIN_CATEGORY, this.files, body).subscribe(
+      let msg = `${this.main_category.value.name}` + 'Updated Successfully';
+      this.commonFunction('updated', msg);
+      this.MCS.update_Main_Categories(body).subscribe(
         (Res) => {
-          this.main_category.reset();
-          this.toastr.success(`${this.main_category.value.name}` + 'Updated Successfully', 'Thank you!');
-          this.MainCategoriesList();
-          this.nvipani = false;
-
+          if (Res.status) {
+            let msg = `${this.main_category.value.name}` + 'Updated Successfully';
+            this.commonFunction('updated', msg);
+          } else {
+            this.commonFunction('error');
+          }
         })
     } else {
-      this.UPS.mCategoryUpload(Url.API.CREATE_MAIN_CATEGORY, this.files, body).subscribe(
+      this.MCS.create_Main_Categories(body).subscribe(
         (Res) => {
-          this.main_category.reset();
-          this.toastr.success(`${this.main_category.value.name}` + 'Created Successfully', 'Thank you!');
-          this.MainCategoriesList();
-          this.nvipani = false;
-          this.updateId = null;
+          if (Res.status) {
+            let msg = `${this.main_category.value.name}` + 'Created Successfully';
+            this.commonFunction('updated', msg);
+          } else {
+            this.commonFunction('error');
+          }
         })
     }
+  }
 
+
+
+  toasterMessages(type, msg) {
+    switch (type) {
+      case 'created': this.toastr.success(msg, 'Thank you!');
+        break;
+      case 'updated': this.toastr.success(msg, 'Thank you!');
+        break;
+      case 'error': this.toastr.error(msg, 'Error!');
+        break;
+      case 'deleted': this.toastr.error(msg, 'Success!');
+        break;
+      case 'disabled': this.toastr.info(msg, 'Success!');
+        break;
+      default:
+        break;
+    }
+
+  }
+
+  commonFunction(type: any = '', msg: any = '') {
+    this.main_category.reset();
+    this.toasterMessages(type, msg);
+    this.MainCategoriesList();
+    this.nvipani = false;
   }
 
   delete(t) {
     this.US.delete_User(t._id).subscribe((res) => {
       console.log(res.data);
       if (res.status) {
-        this.toastr.error('Successfully Deleted!', 'Thank you!');
-        // this.router.navigate(['login']);
-        this.MainCategoriesList();
         this.delete_Data = '';
+        this.commonFunction('deleted', 'Successfully Deleted!');
       } else {
-        this.US.userlogin = res.success;
-        this.toastr.warning('Unable to delete', 'Error');
+        this.commonFunction('error','Unable to delete')
       }
     });
   }
@@ -154,22 +209,23 @@ export class CategoriesComponent implements OnInit {
     console.log(t);
     this.delete_Data = t;
   }
+
   disable(t) {
     if (this.type) {
       this.MCS.disable_MainCategory(t._id, this.type).subscribe((res) => {
         console.log(res.data);
         if (res.status) {
-          this.MainCategoriesList();
-          this.toastr.error('Successfully' + `${this.type}`, 'Thank you!');
           this.disable_Data = '';
+          this.commonFunction('disabled', `${t.name.toUpperCase()} Successfully Disabled`)
         } else {
-          this.toastr.warning('Unable to' + `${this.type}`, 'Error');
+          this.commonFunction('error', `${t.name} Unable to ${this.type}`)
         }
       });
     } else {
       this.toastr.error('Disable or Enable Not Possible', 'Thank you!');
     }
   }
+
   type: string = null;
   disable_popup(t, type) {
     console.log(t);

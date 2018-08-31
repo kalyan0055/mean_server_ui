@@ -28,5 +28,16 @@ export class MCategoryService {
     return this.US.callApi(Url.API.MAIN_CATEGORIES_DISABLE_ENABLE, 'post', body)
   }
 
+  create_Main_Categories(value){
+    let body = value;
+    return this.US.callApi(Url.API.CREATE_SUB_CATEGORIES, 'post', body)
+  }
+
+ update_Main_Categories(value){
+    let body = value;
+    return this.US.callApi(Url.API.UPDATE_SUB_CATEGORIES, 'post', body)
+  }
+
+
 
 }
