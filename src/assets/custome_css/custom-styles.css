@@ -1,0 +1,47 @@
+body {
+	
+}
+.login-page {
+	height: 100vh;
+}
+.login-page .loginbox {
+	max-width: 300px;
+	margin: 0 auto;
+}
+.login-page h1 {
+	font-size: 28px;
+	color: #43425D;
+	font-family: 'Roboto', sans-serif;
+	font-weight: 300;
+	letter-spacing: 6px;
+	padding-bottom: 30px;
+}
+.login-page .LP-input {
+	font-size: 15px;
+	color: #43425D;
+	font-family: 'Roboto', sans-serif;
+	border: 2px solid #E9E9F0;
+	padding: 12px 0;
+	width: 100%;
+	border-top: 0px;
+	border-left: 0px;
+	border-right: 0px;
+}
+.login-page .Rember {
+	font-size: 12px;
+	color: #43425D;
+	font-family: 'Roboto', sans-serif;
+}
+.login-page .Rember a {
+	color: #43425D;
+}
+.login-page .login-btn, .login-page .login-btn:hover, .login-page .login-btn:focus, .login-page .login-btn:active {
+	background-color: #43425D !important;
+	border-color: #43425D !important;
+	color: #fff;
+	text-transform: uppercase;
+	font-family: 'Roboto', sans-serif;
+	font-weight: 300;
+	margin-top: 50px;
+	margin-bottom: 20px;
+}

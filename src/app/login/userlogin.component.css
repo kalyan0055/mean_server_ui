@@ -8,3 +8,7 @@
     font-size: 12px;
     float: right;
 }
+
+mat-form-field{
+    width: 100%  !important;
+}
