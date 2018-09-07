@@ -19,7 +19,7 @@ export class UserloginComponent implements OnInit {
   msg;
   password_status = false;
   loginForm: FormGroup;
-
+  hide = true;
   constructor(public router: Router,public Auth:AuthenticationService,public toaster: ToastrService,public US:UsersService) { }
 
   ngOnInit() {
@@ -49,6 +49,7 @@ export class UserloginComponent implements OnInit {
         this.US.userdata = res.data;
         this.toaster.success(msg,'Welcome');
         this.router.navigate(['users']);
+       
       }
       else{
         this.toaster.error(res.message,'Error');

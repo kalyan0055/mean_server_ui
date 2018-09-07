@@ -6,11 +6,10 @@ export class Url {
         CONF_REGISTRATION:environment.url+'user/sendpresignupotp',
         RESET_PASSWORD: environment.url + 'auth/reset',
         regViaemail :environment.url + 'user/sendpresignupotp',
-        SENDPASSWORDLINK :environment.url + 'users/sendPasswordLink',
+        SENDPASSWORDLINK :environment.url + 'users/resetPasswordRequest',
         
-        register : environment.url+'users/register',
+        
         newUsersist : environment.url+'users/newuserslist',
-        UPDATE_USER : environment.url+'users/updateuser',
         DELETE_USER :environment.url +'users/deleteuser',
         FILE_UPLOAD : environment.url + 'fileupload',
         USER_INFO : environment.url + 'authentication/userinfo',
@@ -22,7 +21,7 @@ export class Url {
       
 
         //PROFILE
-        UPDATE_PROFILE : environment.url+'users',
+        UPDATE_PROFILE : environment.url+'users/update',
         CHANGE_PROFILE : environment.url+'users/profilePicture',
 
         //UNIT OF MEASUREMENTS

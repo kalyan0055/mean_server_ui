@@ -26,25 +26,19 @@ export class UsersService {
   }
   getNewUsers() {
     let body = {}
-    return this.callApi(Url.API.newUsersist+'/'+localStorage.getItem('userid'), 'get', body);
+    return this.callApi(Url.API.newUsersist + '/' + localStorage.getItem('userid'), 'get', body);
   }
-  register(value) {
-    if (value._id) {
-      return this.callApi(Url.API.UPDATE_USER, 'post', value)
-    }
-    return this.callApi(Url.API.register, 'post', value)
-  }
+  
   AddUserInfo(value) {
     return this.callApi(Url.API.USER_INFO, 'post', value)
   }
 
-
   delete_User(_id) {
-    let body = { _id: _id }
-    return this.callApi(Url.API.DELETE_USER, 'post', body)
+    let body = {}
+    return this.callApi(Url.API.DELETE_USER + '/' + _id, 'delete', body)
   }
 
- 
+
   regViaemail(arg0: any): any {
     return this.callApi(Url.API.regViaemail, 'post', arg0)
   }
@@ -57,8 +51,8 @@ export class UsersService {
     return this.callApi(Url.API.SENDPASSWORDLINK, 'post', value)
   }
 
-  disable_User(_id,type) {
-    let body = { id: _id,type:type }
+  disable_User(_id, type) {
+    let body = { id: _id, type: type }
     return this.callApi(Url.API.DISABLE_USER, 'post', body)
   }
 
@@ -72,9 +66,9 @@ export class UsersService {
     headers.append('Access-Control-Allow-Credentials', 'true');
     if (localStorage.getItem('token')) {
       headers.append(
-      'token', localStorage.getItem('token')
-    );
-  }
+        'token', localStorage.getItem('token')
+      );
+    }
     const options = new RequestOptions({ headers: headers });
 
     switch (method) {
@@ -88,7 +82,11 @@ export class UsersService {
           .pipe(map((response: Response) => response.json()));
       case 'put':
         return this._http
-          .put(url,body, options)
+          .put(url, body, options)
+          .pipe(map((response: Response) => response.json()));
+      case 'delete':
+        return this._http
+          .delete(url, options)
           .pipe(map((response: Response) => response.json()));
     }
   }

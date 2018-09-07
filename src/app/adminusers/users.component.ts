@@ -8,7 +8,8 @@ import { UserserviceService } from '../adminusers/userservice.service';
 import { ToastrService } from 'ngx-toastr';
 import { UploadService } from 'src/app/common/upload.service';
 import { UsersService } from '../users.service';
-
+import { ProfileService } from '../profile/profile.service';
+ 
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
@@ -21,6 +22,7 @@ export class UsersComponent implements OnInit {
   msg;
   password_status = false;
   tabaledata: any;
+  profile: FormGroup;
   loginForm: FormGroup;
   REG_FORM: FormGroup;
   REG_FORM1: FormGroup;
@@ -29,6 +31,7 @@ export class UsersComponent implements OnInit {
   formData: FormData;
   hide = true;
   nvipani = false;
+  update_status = false;
   normal_form = true;
   test;
   emailerror = false;
@@ -41,18 +44,28 @@ export class UsersComponent implements OnInit {
   disable_Data;
   reset_Data;
   usertype;
-  constructor(public fb: FormBuilder, public US: UsersService, private toastr: ToastrService, private UPS: UploadService) {
+  type: string = null;
+  constructor(public fb: FormBuilder, public US: UsersService, private toastr: ToastrService,
+     private UPS: UploadService,public PS: ProfileService,) {
     this.usertype = localStorage.getItem('usertype');
   }
 
 
   ngOnInit() {
+
+ 
     this.US.userlogin = false;
     this.loginForm1 = this.fb.group({
       image: ['']
     })
     this.REG_FORM1 = this.fb.group({
       username: ['', Validators.required]
+    })
+    this.profile = this.fb.group({
+      firstName: [''],
+      lastName: [''],
+      middleName: [''],
+      mobile: []
     })
     this.getNewUsers();
   }
@@ -77,20 +90,32 @@ export class UsersComponent implements OnInit {
         '';
   }
 
+  updated_by:any='';
+  edit_visible(value){
+    console.log(value);
+    
+    this.update_status = true;
+    this.profile.patchValue(value)
+    this.updated_by = value.username
+  }
 
-
-
-
-  // --- NVIPANI FUNCTIONS
-
-
-  // nvi_register() {
-  //   this.nvipani = true;
-  // }
-  // back() {
-  //   this.nvipani = false;
-  // }
-
+  updatePrfile() {
+    let body = {}
+    body = Object.assign({}, this.profile.value,{username:this.updated_by});
+    console.log(body);
+    
+    this.PS.updateProfile(body).subscribe((res) => {
+      if (res) {
+        this.update_status= !this.update_status;
+        this.getNewUsers();
+        this.updated_by='';
+        this.toastr.success('Profile Update Successfully', 'success')
+      } else {
+        this.toastr.warning('Profile Update Successfully', 'success')
+      }
+    })
+  }
+ 
   onSearchChange(value) {
     var trigger = value,
       regexp = new RegExp('@nvipani.com');
@@ -114,24 +139,7 @@ export class UsersComponent implements OnInit {
       }
     })
   }
-
-
-
-  // sendPasswordLinkd() {
-  //   if (this.reset_pwd_Data != null && Object.keys(this.reset_pwd_Data).length > 0) {
-  //     this.US.sendPasswordLink(this.reset_pwd_Data).subscribe((res) => {
-  //       if (res.status) {
-  //         this.toastr.success('Registration Requst Sent to -' + `${this.reset_pwd_Data['username']}`, 'Thank you!');
-  //         this.reset_pwd_Data = {};
-  //       } else {
-  //         this.toastr.warning('Registration Requst Sent ', 'Error!');
-  //       }
-  //     })
-  //   } else {
-  //     this.toastr.warning('Please check once', 'error!');
-  //   }
-  // }
-
+ 
   delete(t) {
     this.US.delete_User(t._id).subscribe((res) => {
       console.log(res.data);
@@ -163,15 +171,13 @@ export class UsersComponent implements OnInit {
       });
     }
   }
-  type: string = null;
+ 
   disable_popup(t, type) {
-    console.log(t);
     this.type = type;
     this.disable_Data = t;
   }
 
   reset_popup(t) {
-    console.log(t);
     this.reset_Data = t;
   }
 
@@ -195,5 +201,9 @@ export class UsersComponent implements OnInit {
     } else {
       this.toastr.warning('Please check once', 'error!');
     }
+  }
+
+  filterUsers(type:string){
+  (type==='allusers')?this.getNewUsers():this.tabaledata = this.tabaledata.filter(item=>item.userType===type);  
   }
 } 

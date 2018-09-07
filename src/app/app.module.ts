@@ -62,6 +62,8 @@ import { CategoriesComponent } from './categories/main-categories/categories.com
 import {InputSwitchModule} from 'primeng/inputswitch';
 import {TooltipModule} from 'primeng/tooltip';
 import { SubcategoiresComponent } from './categories/sub-categories/subcategoires.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+ 
  
 @NgModule({
   declarations: [
@@ -78,7 +80,9 @@ import { SubcategoiresComponent } from './categories/sub-categories/subcategoire
     TaxgroupsComponent,
     ProfileComponent,
     CategoriesComponent,
-    SubcategoiresComponent
+    SubcategoiresComponent,
+    DashboardComponent
+     
      
     
   ],

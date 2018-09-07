@@ -10,6 +10,7 @@ import { TaxgroupsComponent } from '../taxgroups/taxgroups.component';
 import { ProfileComponent } from '../profile/profile.component';
 import { CategoriesComponent } from '../categories/main-categories/categories.component';
 import { SubcategoiresComponent } from '../categories/sub-categories/subcategoires.component';
+import { DashboardComponent } from "../dashboard/dashboard.component";
 
 const approuts: Routes = [
     {
@@ -21,7 +22,7 @@ const approuts: Routes = [
     { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
 
     {
-        path: 'users', component: UsersComponent, canActivate: [AuthGuard]
+        path: 'users', component: DashboardComponent, canActivate: [AuthGuard]
     },
     {
         path: 'confirm/:id1/:id2/:id3', component: EmailAuthComponent
