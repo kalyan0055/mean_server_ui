@@ -64,7 +64,6 @@ import {TooltipModule} from 'primeng/tooltip';
 import { SubcategoiresComponent } from './categories/sub-categories/subcategoires.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
  
- 
 @NgModule({
   declarations: [
     AppComponent,

@@ -64,11 +64,11 @@ export class UsersService {
 
     headers.append('Access-Control-Allow-Origin', 'http://192.168.0.110:8081');
     headers.append('Access-Control-Allow-Credentials', 'true');
-    if (localStorage.getItem('token')) {
-      headers.append(
-        'token', localStorage.getItem('token')
-      );
-    }
+    // if (localStorage.getItem('token')) {
+    //   headers.append(
+    //     'token', localStorage.getItem('token')
+    //   );
+    // }
     const options = new RequestOptions({ headers: headers });
 
     switch (method) {

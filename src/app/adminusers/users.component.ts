@@ -9,26 +9,21 @@ import { ToastrService } from 'ngx-toastr';
 import { UploadService } from 'src/app/common/upload.service';
 import { UsersService } from '../users.service';
 import { ProfileService } from '../profile/profile.service';
+import { speedDialFabAnimations } from './fab-animations';
+import { Command } from 'protractor';
  
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
-  styleUrls: ['./users.component.css']
+  styleUrls: ['./users.component.css'],
+  animations: speedDialFabAnimations
 })
 export class UsersComponent implements OnInit {
-  logindata = { 'username': '', password: '' }
-  model = { username: '', email: '', mobile: '', password: '', conf_password: '' }
-  name: any;
-  msg;
-  password_status = false;
-  tabaledata: any;
   profile: FormGroup;
-  loginForm: FormGroup;
-  REG_FORM: FormGroup;
   REG_FORM1: FormGroup;
-  REG_UPDATE_FORM: FormGroup;
   loginForm1: FormGroup;
   formData: FormData;
+
   hide = true;
   nvipani = false;
   update_status = false;
@@ -36,24 +31,71 @@ export class UsersComponent implements OnInit {
   test;
   emailerror = false;
   loading: boolean;
+
+  //TABLE DATA
+  tabaledata: any;
+  tabledata: any;
+  //Table Data end
+
+  //Table Sorting
   public filterQuery = '';
   public rowsOnPage = 10;
   public sortBy = '';
   public sortOrder = 'desc';
+  //Table Sorting End
+
+  //For POP UPS DATA
   delete_Data;
   disable_Data;
   reset_Data;
   usertype;
   type: string = null;
+  //For POP UPS DATA
+
+
+  //FAB BUTTONS 
+  fabButtons = [
+    {
+      icon: 'create',
+      edit:(param)=>{this.edit_visible(param)}, 
+      tooltip:"Delete User"},
+    {
+      icon: 'delete_outline',
+      edit:(param)=>{this.delete_popup(param)},
+      tooltip:"Delete User"
+    },
+    {
+      icon: 'person_add_disabled',
+      edit:(param,type)=>{this.disable_popup((param),type)}, 
+      tooltip:"Disable User",
+    },
+    {
+      icon: 'person',
+      edit:(param,type)=>{this.disable_popup((param),type)}, 
+      tooltip:"Enable User",
+    },
+    {
+      icon: 'lightbulb_outline',
+      edit:(param)=>{this.edit_visible(param)}, 
+      tooltip:"Delete User",
+    },
+    {
+      icon: 'lock',
+      edit:(param)=>{this.edit_visible(param)}, 
+      tooltip:"Delete User",
+    }
+  ];
+  buttons = [];
+  fabTogglerState = 'inactive';
+  //FAB Buttons end
+
   constructor(public fb: FormBuilder, public US: UsersService, private toastr: ToastrService,
-     private UPS: UploadService,public PS: ProfileService,) {
+    private UPS: UploadService, public PS: ProfileService, ) {
     this.usertype = localStorage.getItem('usertype');
   }
 
 
   ngOnInit() {
-
- 
     this.US.userlogin = false;
     this.loginForm1 = this.fb.group({
       image: ['']
@@ -74,8 +116,8 @@ export class UsersComponent implements OnInit {
     this.loading = true;
     this.US.getNewUsers().subscribe((res) => {
       console.log(res);
-
       if (res.data) {
+        this.tabledata = res.data;
         this.tabaledata = res.data;
         this.loading = false;
       } else {
@@ -90,10 +132,10 @@ export class UsersComponent implements OnInit {
         '';
   }
 
-  updated_by:any='';
-  edit_visible(value){
-    console.log(value);
-    
+  updated_by: any = '';
+  edit_visible(value:any='') {
+    console.log(value,'test');
+
     this.update_status = true;
     this.profile.patchValue(value)
     this.updated_by = value.username
@@ -101,21 +143,21 @@ export class UsersComponent implements OnInit {
 
   updatePrfile() {
     let body = {}
-    body = Object.assign({}, this.profile.value,{username:this.updated_by});
+    body = Object.assign({}, this.profile.value, { username: this.updated_by });
     console.log(body);
-    
+
     this.PS.updateProfile(body).subscribe((res) => {
       if (res) {
-        this.update_status= !this.update_status;
+        this.update_status = !this.update_status;
         this.getNewUsers();
-        this.updated_by='';
-        this.toastr.success('Profile Update Successfully', 'success')
+        this.updated_by = '';
+        this.toastr.success('User Updated Successfully', 'success')
       } else {
-        this.toastr.warning('Profile Update Successfully', 'success')
+        this.toastr.warning('Error in Updating User', 'error')
       }
     })
   }
- 
+
   onSearchChange(value) {
     var trigger = value,
       regexp = new RegExp('@nvipani.com');
@@ -139,7 +181,7 @@ export class UsersComponent implements OnInit {
       }
     })
   }
- 
+
   delete(t) {
     this.US.delete_User(t._id).subscribe((res) => {
       console.log(res.data);
@@ -154,7 +196,8 @@ export class UsersComponent implements OnInit {
     });
   }
   delete_popup(t) {
-    console.log(t);
+    console.log(t,'delete');
+    document.getElementById('delete').click();
     this.delete_Data = t;
   }
   disable(t) {
@@ -171,7 +214,7 @@ export class UsersComponent implements OnInit {
       });
     }
   }
- 
+
   disable_popup(t, type) {
     this.type = type;
     this.disable_Data = t;
@@ -203,7 +246,57 @@ export class UsersComponent implements OnInit {
     }
   }
 
-  filterUsers(type:string){
-  (type==='allusers')?this.getNewUsers():this.tabaledata = this.tabaledata.filter(item=>item.userType===type);  
+  s_buttons:boolean=false;
+  filterUsers(type: string) {
+    (type === 'allusers') ? this.tabaledata = this.tabledata : this.tabaledata = this.tabaledata.filter(item => item.userType === type);
   }
+
+  //fAB BUTTONS RELATED FUNC
+  showItems() {
+    this.fabTogglerState = 'active';
+    this.buttons = this.fabButtons;
+  }
+
+  hideItems() {
+    this.fabTogglerState = 'inactive';
+    this.buttons = [];
+  }
+index:number;
+prev:number=0;  
+onToggleFab(index) {
+    console.log('called',this.prev,index);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      );
+    this.index =index;
+    // if(this.prev == 0 ){
+    //     this.prev == index;
+         
+    //       if(this.prev == this.index){
+    //         console.log('this is the case');
+           
+    //       }else{
+    //         this.prev = this.index;
+    //       }
+         
+    // }else{
+    //   if(this.prev == this.index){
+    //     console.log('this is the case1');
+        
+    //     this.showItems();
+    //   }else{
+    //     this.prev = this.index;
+    //   }
+    // }
+     
+    // this.s_buttons = !this.s_buttons;
+    // (this.tabaledata.indexOf(item) === index)?this.fabTogglerState ='active':this.fabTogglerState = 'inactive';
+        this.buttons.length ? this.hideItems() : this.showItems();
+  }
+  
+temp;
+  changeStyle($event){
+     
+     
+    
+    this.temp= $event.type == 'mouseover' ? 'yellow' : 'red';
+  }
+   //fAB BUTTONS RELATED FUNC
 } 
