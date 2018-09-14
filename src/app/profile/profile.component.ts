@@ -32,7 +32,8 @@ export class ProfileComponent implements OnInit {
       firstName: [''],
       lastName: [''],
       middleName: [''],
-      mobile: []
+      mobile: [],
+      displayName:[]
     })
     this.profile_img = this.fb.group({
       file: [''],
@@ -49,6 +50,14 @@ export class ProfileComponent implements OnInit {
     body = Object.assign({}, this.profile.value, { username: localStorage.getItem('email') });
     this.PS.updateProfile(body).subscribe((res) => {
       if (res) {
+        localStorage.setItem('userInfo',JSON.stringify({firstName:this.profile.value.firstName,lastName:this.profile.value.lastName,middleName:this.profile.value.middleName,mobile:this.profile.value.mobile,displayName:this.profile.value.displayName}));
+        this.userdata =  JSON.parse(localStorage.getItem('userInfo'))
+        this.pview =true;
+        
+        // this.userdata['firstName'] = this.profile.value.firstName;
+        // this.userdata['middleName'] = this.profile.value.middleName;
+        // this.userdata['lastName'] = this.profile.value.lastName;
+        // this.userdata['displayName'] = this.profile.value.displayName;
         this.toastr.success('Profile Update Successfully', 'success')
       } else {
         this.toastr.warning('Profile Update Successfully', 'success')
@@ -68,10 +77,10 @@ export class ProfileComponent implements OnInit {
       this.imagepriview = reader.result
     }
     reader.readAsDataURL(value);
-  }
+  } 
 
   fileupload() {
-    this.UPLOAD.makeFileRequest('http://localhost:8081/users/profilePicture', this.files).subscribe(
+    this.UPLOAD.makeFileRequest('http://192.168.2.16:8082/users/profilePicture', this.files).subscribe(
       (Res) => {
         let data = JSON.parse(Res);
         localStorage.setItem('profileImageURL', `modules/users/img/profile/uploads/${data.path}`);
@@ -80,5 +89,7 @@ export class ProfileComponent implements OnInit {
         this.nopic = true
       })
   }
-
+  fileupload_reset(){
+    this.imagepriview='';
+  }
 }

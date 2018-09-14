@@ -23,4 +23,22 @@
                 </ul>
             </div>
         </nav> -->
-   
+        <div class="row no-gutters ITop-bar align-items-center">
+            <div class="col-2 d-block d-sm-none"><button type="button" id="sidebarCollapse" class="btn btn-info">
+                <i class="fas fa-align-left"></i>
+          
+              </button></div>
+            <div class="col">
+              <i class="ITB-icons Search-icon"></i>
+              <input type="" name="" class="search-input" placeholder="Start addressing the user query with their userid or phone number">
+          
+            </div>
+            <div class="col d-flex align-items-center justify-content-end ITB-RightSec">
+              <a><i class="ITB-icons email-icon"></i></a>
+              <a><span class="n-dot"></span><i class="ITB-icons bell-icon"></i></a>
+              <a style="cursor:pointer" pTooltip ="Profile" (click)="sideclick('profile')"  tooltipPosition="bottom"  class="d-none d-sm-block">{{(usertype === 'Admin')?'Super Admin':(usertype === 'Adminuser')?'Admin':(usertype === 'User')?'User':''}}<i class="ITB-icons dnarrow-icon"></i> </a>
+              <a style="cursor:pointer" pTooltip ="Logout" tooltipPosition="bottom" (click)="logout()" ><span class="PP" style="background-image: url(images/pp-img.jpg);"></span></a>    
+            </div>
+          </div>
+       
+          

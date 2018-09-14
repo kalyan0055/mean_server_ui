@@ -1,7 +1,9 @@
 <div class="wrapper">
 <app-sidenav style="background: #43425d;"></app-sidenav>
 <div id="content">
-<app-users *ngIf="this.CS.selectd_page == null"></app-users>
+<app-profile *ngIf="this.CS.selectd_page == 'profile'"></app-profile>
+<app-users *ngIf="this.CS.selectd_page == null || this.CS.selectd_page == '' "></app-users>
+<app-comingsoon *ngIf="this.CS.selectd_page == 'comingsoon' "></app-comingsoon>
  </div>
 </div>
  

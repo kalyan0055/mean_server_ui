@@ -2,7 +2,7 @@ import { TestBed, inject } from '@angular/core/testing';
 
 import { HsnService } from './hsn.service';
 
-describe('HsnService', () => {
+xdescribe('HsnService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [HsnService]

@@ -19,11 +19,12 @@ const approuts: Routes = [
     {
         path: 'login', component: UserloginComponent
     },
-    { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
+    { path: 'profile', component: DashboardComponent, canActivate: [AuthGuard] },
 
     {
-        path: 'users', component: DashboardComponent, canActivate: [AuthGuard]
+        path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]
     },
+    { path: 'dashboard/:selectedpage', component: DashboardComponent },
     {
         path: 'confirm/:id1/:id2/:id3', component: EmailAuthComponent
     },

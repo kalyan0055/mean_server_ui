@@ -4,6 +4,7 @@ import { Observable, Subject, pipe } from 'rxjs';
 // operators all come from `rxjs/operators`
 import { map } from 'rxjs/operators';
 import { Url } from "../common/url";
+ 
 @Injectable({
   providedIn: 'root'
 })
@@ -60,8 +61,10 @@ export class UserserviceService {
            .pipe(map((res:Response)=>res.json())).catch((err) => {
                                
             // Do messaging anREd error handling here
-           
-            return Observable.throw(err._body)
+            let empty=[];
+            let res = JSON.parse(err._body)
+            empty.push(res);
+            return empty;
         });
        case 'get':
          return this._http

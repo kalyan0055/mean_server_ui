@@ -41,7 +41,7 @@ export class ResetpasswordComponent implements OnInit {
   hide = true;
   registrationFormGroup: FormGroup;
   passwordFormGroup: FormGroup;
-
+  loading1=false;
   constructor(private location: Location, private route: ActivatedRoute,
     public router: Router, public Auth: AuthenticationService,
     public toaster: ToastrService, public US: UserserviceService, private formBuilder: FormBuilder) {
@@ -63,6 +63,7 @@ export class ResetpasswordComponent implements OnInit {
   username: any;
   otp: number;
   ngOnInit() {
+     
     localStorage.clear();
     this.sub = this.route.params.subscribe(params => {
       this.username = params.id1// (+) converts string 'id' to a number
@@ -88,14 +89,20 @@ export class ResetpasswordComponent implements OnInit {
       verifyPassword: this.registrationFormGroup.value.passwordFormGroup.repeatPassword,
       otp: this.otp
     }
+    this.loading1=true;
     this.Auth.resetPassword(body).subscribe((res) => {
-      if (res.status) {
+        if (res.status) {
+        this.loading1= false;
         let msg = res.message;
         this.toaster.success(msg, 'Success');
         localStorage.clear();
         this.router.navigate(['']);
       } else {
-        this.toaster.error(res.message, 'Error');
+      setTimeout(() => {
+        this.loading1= false;
+        this.toaster.error(res.message, 'Errodr');
+      }, 2000);
+        
       }
     })
   }

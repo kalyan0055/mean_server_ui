@@ -8,7 +8,7 @@ import { CommonService } from '../common/common.service';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor(private CS:CommonService) { }
+  constructor(public CS:CommonService) { }
 
   ngOnInit() {
   }

@@ -12,12 +12,16 @@ export class UnitofmeasuersComponent implements OnInit {
   loading: boolean;
   tabaledata1;
   UOM_FORM: FormGroup;
+  nvipani=false;
   public data;
   public filterQuery = '';
   public rowsOnPage = 10;
   public sortBy = '';
   public sortOrder = 'desc';
   types: any = [{ 'type': 'Simple' }, { 'type': 'Compound' }];
+  delete_Data;
+  reset_Data;
+  disable_Data;
   constructor(private US: UsersService, private fb: FormBuilder, private UOM: UomService, private toastr: ToastrService, ) { }
 
   ngOnInit() {

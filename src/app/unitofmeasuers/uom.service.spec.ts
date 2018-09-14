@@ -2,7 +2,7 @@ import { TestBed, inject } from '@angular/core/testing';
 
 import { UomService } from './uom.service';
 
-describe('UomService', () => {
+xdescribe('UomService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [UomService]

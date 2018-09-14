@@ -14,6 +14,8 @@ export class TaxgroupsComponent implements OnInit {
   loading: boolean;
   tabaledata: any = [];
   tgUpdateId=''; 
+  nvipani=false;
+  disable_Data;
   public filterQuery = '';
   public rowsOnPage = 20;
   public sortBy = '';

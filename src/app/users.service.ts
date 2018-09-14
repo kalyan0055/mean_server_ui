@@ -14,6 +14,7 @@ import { Observable, Subject, pipe } from 'rxjs';
 // operators all come from `rxjs/operators`
 import { map } from 'rxjs/operators';
 import { Url } from "./common/url";
+
 @Injectable({
   providedIn: 'root'
 })
@@ -38,6 +39,10 @@ export class UsersService {
     return this.callApi(Url.API.DELETE_USER + '/' + _id, 'delete', body)
   }
 
+  restore(_id) {
+    let body = {}
+    return this.callApi(Url.API.ACTIVATE_USER + '/' + _id, 'delete', body)
+  }
 
   regViaemail(arg0: any): any {
     return this.callApi(Url.API.regViaemail, 'post', arg0)
@@ -56,6 +61,11 @@ export class UsersService {
     return this.callApi(Url.API.DISABLE_USER, 'post', body)
   }
 
+
+  findUser(value){
+    return this.callApi(Url.API.FINDUSER, 'post', value)
+  }
+
   callApi(url: string, method: string, body: Object): Observable<any> {
     console.log(`Http call - url: ${url}, body: ${JSON.stringify(body)}`);
 
@@ -64,11 +74,11 @@ export class UsersService {
 
     headers.append('Access-Control-Allow-Origin', 'http://192.168.0.110:8081');
     headers.append('Access-Control-Allow-Credentials', 'true');
-    // if (localStorage.getItem('token')) {
-    //   headers.append(
-    //     'token', localStorage.getItem('token')
-    //   );
-    // }
+    if (localStorage.getItem('token')) {
+      headers.append(
+        'token', localStorage.getItem('token')
+      );
+    }
     const options = new RequestOptions({ headers: headers });
 
     switch (method) {

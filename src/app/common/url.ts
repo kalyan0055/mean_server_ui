@@ -11,10 +11,12 @@ export class Url {
         
         newUsersist : environment.url+'users/newuserslist',
         DELETE_USER :environment.url +'users/deleteuser',
+        ACTIVATE_USER:environment.url +'users/restoreeuser',
         FILE_UPLOAD : environment.url + 'fileupload',
         USER_INFO : environment.url + 'authentication/userinfo',
         USER_INFO_VIMAGE : environment.url + 'authentication/userinfo_vimage',
         USERINFO_UPDATE_VIMAGE :environment.url + 'authentication/userinfo_update_vimage',
+        FINDUSER : environment.url + 'users/finduser',
         // regViaemail :environment.url + 'users/registervialink',
        
         DISABLE_USER: environment.url + 'users/disableUser',

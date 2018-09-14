@@ -4,7 +4,7 @@ import { UsersService } from '../users.service';
 import { FormBuilder, FormGroup, Validators, FormsModule } from "@angular/forms";
 import { HsnService } from "../hsncodes/hsn.service";
 import { ToastrService } from 'ngx-toastr';
-import { PageEvent } from '../../../node_modules/angular2-datatable';
+import { PageEvent } from '../../../node_modules/angular-6-datatable';
 import {UomService} from '../unitofmeasuers/uom.service';
 import {SelectItem} from 'primeng/api';
 
@@ -26,7 +26,9 @@ export class HsncodesComponent implements OnInit {
   totalposts:number;
   pageSize=100;
   currentpage=1;
-
+  nvipani=false;
+  disable_Data;
+  reset_Data;
   //angular2-multiselect
     itemList = [];
   hsnUpdateId:string='';

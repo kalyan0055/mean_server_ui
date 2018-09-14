@@ -34,3 +34,8 @@
 .space{
     white-space: pre !important;
 }
+
+
+a {
+  cursor: pointer;
+}

@@ -74,8 +74,8 @@
       </div>
       <div class="form-group">
         <mat-form-field>
-          <input matInput placeholder="Password" minlength="8" maxlength="16" [type]="hide ? 'password' : 'text'" [(ngModel)]="model.password" name="password" #password="ngModel"  required>
-          <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+          <input  matInput placeholder="Password" minlength="8" maxlength="16" [type]="hide ? 'password' : 'text'" [(ngModel)]="model.password" name="password" #password="ngModel"  required>
+          <mat-icon style="cursor:pointer" matSuffix (click)="hide = !hide">{{hide ? 'visibility_off':'visibility'}}</mat-icon>
           <mat-error [hidden]="password.hasError('required')">Password is required</mat-error>
           <mat-error [hidden]="password.hasError('minlength')">Password Should be 8 to 16 Chars.. </mat-error>
         </mat-form-field> 

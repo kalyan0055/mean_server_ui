@@ -41,7 +41,7 @@ export class EmailAuthComponent implements OnInit, OnDestroy {
   hide = true;
   registrationFormGroup: FormGroup;
   passwordFormGroup: FormGroup;
-
+  loading1=false;
   constructor(private location: Location, private route: ActivatedRoute,
     public router: Router, public Auth: AuthenticationService,
     public toaster: ToastrService, public US: UserserviceService, private formBuilder: FormBuilder) {
@@ -70,7 +70,6 @@ export class EmailAuthComponent implements OnInit, OnDestroy {
       this.otp = params.id3
       this.location.replaceState('authd');
       // Decode the String
- 
      
       // In a real app: dispatch action to load the details here.
     });
@@ -86,6 +85,7 @@ export class EmailAuthComponent implements OnInit, OnDestroy {
   register() {
     this.router.navigate(['userlogin'])
   }
+ 
   onSubmit() {
     console.log(this.registrationFormGroup.value.passwordFormGroup);
     let body = {
@@ -95,13 +95,17 @@ export class EmailAuthComponent implements OnInit, OnDestroy {
       isverifyotp: true,
       otp:this.otp
     }
+    this.loading1 = true;
     this.Auth.confirmRegistration(body).subscribe((res) => {
       if (res.status) {
         console.log(res, 'tttttttttttttt');
-        this.toaster.success('Admin User Registered Successfully', 'Success');
+        this.loading1 = false;
+        let type 
+        this.toaster.success('Admin/User Account Activated Successfully', 'Success');
         this.router.navigate(['']);
       } else {
-        this.toaster.error('Admin User Registration Error...', 'Error');
+        this.loading1 = false;
+        this.toaster.error('Admin/User Account Activation Error...', 'Error');
       }
     })
   }

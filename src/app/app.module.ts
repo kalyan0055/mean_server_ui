@@ -1,7 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA,NO_ERRORS_SCHEMA   } from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
+ 
 import {   MatAutocompleteModule,
   MatButtonModule,
   MatButtonToggleModule,
@@ -38,7 +39,8 @@ import {   MatAutocompleteModule,
   import {ReactiveFormsModule,FormsModule} from '@angular/forms'
  
 import {HttpModule} from '@angular/http';
-import {DataTableModule  } from "angular2-datatable";
+// import {DataTableModule  } from "angular2-datatable";
+import {DataTableModule} from "angular-6-datatable";
 // import { ForgetPasswordComponent } from './common/forget-password/forget-password.component';
 import { DatatablesPipe } from './common/datatables.pipe';
 import { ToastrModule } from 'ngx-toastr';
@@ -63,6 +65,7 @@ import {InputSwitchModule} from 'primeng/inputswitch';
 import {TooltipModule} from 'primeng/tooltip';
 import { SubcategoiresComponent } from './categories/sub-categories/subcategoires.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { ComingsoonComponent } from './common/comingsoon/comingsoon.component';
  
 @NgModule({
   declarations: [
@@ -80,7 +83,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     ProfileComponent,
     CategoriesComponent,
     SubcategoiresComponent,
-    DashboardComponent
+    DashboardComponent,
+    ComingsoonComponent
      
      
     
@@ -126,8 +130,10 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     DataTableModule,
     DropdownModule,
     InputSwitchModule,
-    TooltipModule
+    TooltipModule,
+     
   ],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA,NO_ERRORS_SCHEMA ],
   providers: [UploadService,AuthGuard],
   bootstrap: [AppComponent]
 })
