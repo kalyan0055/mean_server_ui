@@ -11,6 +11,7 @@ import { ProfileComponent } from '../profile/profile.component';
 import { CategoriesComponent } from '../categories/main-categories/categories.component';
 import { SubcategoiresComponent } from '../categories/sub-categories/subcategoires.component';
 import { DashboardComponent } from "../dashboard/dashboard.component";
+import { UiSettingsComponent } from "../ui-settings/ui-settings.component";
 
 const approuts: Routes = [
     {
@@ -36,8 +37,7 @@ const approuts: Routes = [
     { path: 'taxgroups', component: TaxgroupsComponent, canActivate: [AuthGuard] },
     { path: 'category', component: CategoriesComponent, canActivate: [AuthGuard] },
     { path: 'sub-category', component: SubcategoiresComponent, canActivate: [AuthGuard] },
-
-    
+ 
 
 
     { path: '', redirectTo: '', pathMatch: 'full' },

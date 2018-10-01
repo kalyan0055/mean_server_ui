@@ -25,6 +25,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class DatatablesPipe implements PipeTransform {
   keys = [];
   transform(value: any[], args: string): any {
+    
     if(!value)return null;
     if(!args)return value;
 

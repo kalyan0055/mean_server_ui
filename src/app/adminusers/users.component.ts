@@ -1,27 +1,39 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import {
-  FormArray, Form, FormControlName, FormGroup, FormBuilder, NG_VALIDATORS, Validator,
-  Validators, AbstractControl, ValidatorFn
-} from '@angular/forms';
+import { Component, OnInit, ViewEncapsulation, OnDestroy, Injector } from '@angular/core';
+import { FormArray, Form, FormControlName, FormGroup, FormBuilder, NG_VALIDATORS, Validator,
+  Validators, AbstractControl, ValidatorFn } from '@angular/forms';
 //import { Router, Routes } from "@angular/router";
-import { UserserviceService } from '../adminusers/userservice.service';
-import { ToastrService } from 'ngx-toastr';
-import { UploadService } from 'src/app/common/upload.service';
-import { UsersService } from '../users.service';
-import { ProfileService } from '../profile/profile.service';
+
+// import { ToastrService } from 'ngx-toastr';
+// import { UploadService } from 'src/app/common/upload.service';
+// import { UsersService } from '../users.service';
+// import { ProfileService } from '../profile/profile.service';
+//import { UisettingsService } from '../ui-settings/uisettings.service';
 import { speedDialFabAnimations } from './fab-animations';
 import swal from 'sweetalert2';
 // declare var swal:any;
+import * as jquery from 'jquery';
+import * as _ from 'underscore';
+import { Subject } from 'rxjs';
+declare var $: any;
 
+import { AllServices } from '../allservices';
+
+
+class DataTablesResponse {
+  data: any[];
+  draw: number;
+  recordsFiltered: number;
+  recordsTotal: number;
+}
 
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.css'],
   animations: speedDialFabAnimations,
-  encapsulation:ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None
 })
-export class UsersComponent implements OnInit {
+export class UsersComponent extends AllServices implements OnInit, OnDestroy {
   profile: FormGroup;
   REG_FORM1: FormGroup;
   loginForm1: FormGroup;
@@ -34,19 +46,20 @@ export class UsersComponent implements OnInit {
   test;
   emailerror = false;
   loading: boolean;
-  loading1=false;
+  loading1 = false;
   //TABLE DATA
-  tabaledata: any;
+  tabaledata: any = [];
   tabledata: any;
-  tabledata1:any;
-  tabledata2:any;
+  tabledata1: any;
+  tabledata2: any;
   //Table Data end
 
   //Table Sorting
   public filterQuery = '';
-  public rowsOnPage = 10;
+  public rowsOnPage = 5;
   public sortBy = '';
   public sortOrder = 'desc';
+  public rowsOnPageSet = [5, 10, 20, 40, 60, 80, 100]
   //Table Sorting End
 
   //For POP UPS DATA
@@ -55,55 +68,79 @@ export class UsersComponent implements OnInit {
   reset_Data;
   usertype;
   type: string = null;
-   
-   
-  //For POP UPS DATA
 
+
+  //For POP UPS DATA
 
   //FAB BUTTONS 
   fabButtons = [
     {
       icon: 'create',
-      edit:(param)=>{this.edit_visible(param)}, 
-      tooltip:"Delete User"},
+      edit: (param) => { this.edit_visible(param) },
+      tooltip: "Delete User"
+    },
     {
       icon: 'delete_outline',
-      edit:(param,type)=>{this.delete_popup(param,type)},
-      tooltip:"Delete User"
+      edit: (param, type) => { this.delete_popup(param, type) },
+      tooltip: "Delete User"
     },
     {
       icon: 'person_add_disabled',
-      edit:(param,type)=>{this.disable_popup((param),type)}, 
-      tooltip:"Disable User",
+      edit: (param, type) => { this.disable_popup((param), type) },
+      tooltip: "Disable User",
     },
     {
       icon: 'person',
-      edit:(param,type)=>{this.disable_popup((param),type)}, 
-      tooltip:"Enable User",
+      edit: (param, type) => { this.disable_popup((param), type) },
+      tooltip: "Enable User",
     },
     {
       icon: 'lightbulb_outline',
-      edit:(param)=>{this.edit_visible(param)}, 
-      tooltip:"Delete User",
+      edit: (param) => { this.edit_visible(param) },
+      tooltip: "Delete User",
     },
     {
       icon: 'lock',
-      edit:(param)=>{this.edit_visible(param)}, 
-      tooltip:"Delete User",
+      edit: (param) => { this.edit_visible(param) },
+      tooltip: "Delete User",
     }
   ];
   buttons = [];
   fabTogglerState = 'inactive';
   //FAB Buttons end
+  dtOptions: DataTables.Settings = {};
+  persons = [];
+  dtTrigger: Subject<any> = new Subject();
+  pagelength;
 
-  constructor(public fb: FormBuilder, public US: UsersService, private toastr: ToastrService,
-    private UPS: UploadService, public PS: ProfileService, ) {
+  filterQuery1: number;
+  constructor(public fb: FormBuilder, injector: Injector) {
+    super(injector);
     this.usertype = localStorage.getItem('usertype');
+    console.log(this.US.datatable, 'from service');
+    console.log(this.pagelength, 'page length');
+
+    this.pagelength = this.US.datatable;
+    console.log(this.pagelength, 'page length');
+    this.AUTOLOGOUT.initListener();
+    // this.s = localStorage.getItem('datatable');
+    // console.log(this.usertype,'datatable');
+    // console.log(this.s,'datatable');
+    // var array = JSON.parse(this.s);
+    // if (this.s) {
+    //   for (let i = 0; i < array.length; i++) {
+    //     const element = array[i];
+    //     this.pagelength.push(element)
+    //   }
+    // }
+
   }
 
 
+
   ngOnInit() {
-    
+    console.log('this shoudl not exeuted');
+
     this.US.userlogin = false;
     this.loginForm1 = this.fb.group({
       image: ['']
@@ -115,28 +152,82 @@ export class UsersComponent implements OnInit {
       firstName: [''],
       lastName: [''],
       middleName: [''],
-      mobile: ['',Validators.required]
+      mobile: ['', Validators.required]
     })
-    this.getNewUsers();
-    
+    //  this.getNewUsers();
+
+    this.dtOptions = {
+      // Configure the buttons
+      pagingType: 'full_numbers',
+      pageLength: 10,
+      serverSide: true,
+      processing: true,
+      language: {
+        paginate: {
+          first: "<<",
+          last: ">>",
+          next: ">",
+          previous: "<"
+        },
+        searchPlaceholder: "Search Table Elements",
+
+      },
+      lengthMenu: (this.US.datatable.length > 0) ? this.pagelength : [10, 20, 50, 100],
+      //  lengthChange: false,
+      ajax: (dataTablesParameters: any, callback) => {
+        this.US.getNewUsers(dataTablesParameters).subscribe(resp => {
+          let filteredData = []; resp.data.forEach(element => {
+            (element.displayName === '' || element.displayName === undefined) ? element.displayName = '-' : element.displayName = element.displayName;
+            (element.mobile === '' || element.mobile === undefined) ? element.mobile = '-' : element.mobile = element.mobile;
+            element['options'] = '-';
+            filteredData.push(element)
+          });
+          this.tabaledata = filteredData
+          this.tabledata1 = filteredData
+          this.tabledata2 = filteredData;
+          // this.tabaledata = resp.data.filter(item=>item.username != 'info@nvipani.com');
+          this.tabledata = filteredData;
+          callback({
+            recordsTotal: this.tabaledata.length,
+            recordsFiltered: resp.tot_count,
+            data: this.tabaledata
+          });
+
+        });
+      },
+
+      columns: [{ title: 'Namea', name: 'displayName', data: 'displayName' }, { title: 'E-Mail', name: 'email', data: 'email' }, { title: 'Mobile', name: 'mobile', data: 'mobile' },
+      { title: 'Status', name: 'status', data: 'status' }, { title: 'Options', name: 'options', data: 'options', orderable: false }
+      ],
+
+    };
+  }
+  ngOnDestroy(): void {
+    // Do not forget to unsubscribe the event
+    this.dtTrigger.unsubscribe();
   }
 
+  
   getNewUsers() {
     this.loading = true;
-    this.US.getNewUsers().subscribe((res) => {
+    this.US.getNewUsers(null).subscribe((res) => {
       console.log(res);
-      if (res.data) {
-        this.tabledata = res.data.filter(item=>item.username != 'info@nvipani.com');
-        this.tabledata1 = res.data.filter(item=>item.username != 'info@nvipani.com');
-        this.tabledata2 = res.data.filter(item=>item.username != 'info@nvipani.com');
-        this.tabaledata = res.data.filter(item=>item.username != 'info@nvipani.com');
+      if (res.status) {
+        this.tabledata = res.data.filter(item => item.username != 'info@nvipani.com');
+        this.tabledata1 = res.data.filter(item => item.username != 'info@nvipani.com');
+        this.tabledata2 = res.data.filter(item => item.username != 'info@nvipani.com');
+        this.tabaledata = res.data.filter(item => item.username != 'info@nvipani.com');
+        this.pagelength.push(res.tot_count)
         this.loading = false;
       } else {
-        this.loading = true;
+        this.tabaledata = [];
+        console.log(this.tabaledata.length);
+        this.loading = false;
       }
     })
   }
-  reset_form(){
+
+  reset_form() {
     this.REG_FORM1.reset();
   }
   getErrorMessage() {
@@ -146,9 +237,7 @@ export class UsersComponent implements OnInit {
   }
 
   updated_by: any = '';
-  edit_visible(value:any='') {
-    console.log(value,'test');
-
+  edit_visible(value: any = '') {
     this.update_status = true;
     this.profile.patchValue(value)
     this.updated_by = value.username
@@ -158,7 +247,7 @@ export class UsersComponent implements OnInit {
     let body = {}
     body = Object.assign({}, this.profile.value, { username: this.updated_by });
     console.log(body);
-    this.loading1= true;
+    this.loading1 = true;
     this.PS.updateProfile(body).subscribe((res) => {
       if (res) {
         this.loading1 = false;
@@ -184,36 +273,34 @@ export class UsersComponent implements OnInit {
     }
   }
 
-  findUser(){
-    this.US.findUser({username:this.REG_FORM1.value.username}).subscribe((res) => {
+  findUser() {
+    this.US.findUser({ username: this.REG_FORM1.value.username }).subscribe((res) => {
       // this.loading1= true;
       if (res.data == 'Register Request') {
         this.swal_Alert();
-      }else{
-      this.nvi_onSubmit();    
+      } else {
+        this.nvi_onSubmit();
       }
     })
   }
-  test1(){
-    alert('heello')
-  }
-  swal_Alert(){
+
+  swal_Alert() {
     let that = this;
     swal({
-      type:'warning',
+      type: 'warning',
       title: 'Registration request already Sent?',
       text: 'Are you sure to resend registration request mail',
       showCancelButton: true,
       confirmButtonText: 'Yes, Please!',
       cancelButtonText: 'No',
       confirmButtonColor: '#049F0C',
-      cancelButtonColor:'#ff0000',
-      reverseButtons:true,
+      cancelButtonColor: '#ff0000',
+      reverseButtons: true,
     }).then((result) => {
-      if(result.value){
+      if (result.value) {
         that.nvi_onSubmit();
       }
-    } );
+    });
   }
 
   nvi_onSubmit() {
@@ -228,10 +315,10 @@ export class UsersComponent implements OnInit {
         this.toastr.success('Registration Requst Sent to -' + `${this.REG_FORM1.value.username}`, 'Thank you!');
         this.getNewUsers();
         this.nvipani = false;
-      }else{
+      } else {
         this.loading1 = false;
         this.toastr.error(res.message, 'Error!');
- 
+
       }
     })
   }
@@ -252,9 +339,9 @@ export class UsersComponent implements OnInit {
       }
     });
   }
-  del_pop_msg:string=''; 
-  delete_popup(t,type) {
-    console.log(t,'delete');
+  del_pop_msg: string = '';
+  delete_popup(t, type) {
+    console.log(t, 'delete');
     this.del_pop_msg = type;
     document.getElementById('delete').click();
     this.delete_Data = t;
@@ -276,7 +363,7 @@ export class UsersComponent implements OnInit {
     });
   }
 
-  
+
   disable(t) {
     this.loading1 = true;
     if (this.type != null) {
@@ -329,71 +416,22 @@ export class UsersComponent implements OnInit {
     }
   }
 
-  s_buttons:boolean=false;
-  selected_type='All Users';
+  s_buttons: boolean = false;
+  selected_type = 'All Users';
   filterUsers(type: string) {
     console.log(type);
-    (type === 'Adminuser')? this.selected_type = 'Admins':(type === 'User')? this.selected_type = 'Users':this.selected_type='All Users';
+    (type === 'Adminuser') ? this.selected_type = 'Admins' : (type === 'User') ? this.selected_type = 'Users' : this.selected_type = 'All Users';
     switch (type) {
-      case 'allusers':this.tabaledata = this.tabledata;       
+      case 'allusers': this.tabaledata = this.tabledata;
         break;
-      case 'Adminuser':this.tabaledata = this.tabledata1.filter(item => item.userType === type);       
+      case 'Adminuser': this.tabaledata = this.tabledata1.filter(item => item.userType === type);
         break;
-      case 'User':this.tabaledata = this.tabledata2.filter(item => item.userType === type)       
+      case 'User': this.tabaledata = this.tabledata2.filter(item => item.userType === type)
         break;
-        default:this.tabaledata = this.tabledata;   
+      default: this.tabaledata = this.tabledata;
         break;
     }
     (type === 'allusers') ? this.tabaledata = this.tabledata : this.tabaledata = this.tabaledata.filter(item => item.userType === type);
   }
-
-  //fAB BUTTONS RELATED FUNC
-  showItems() {
-    this.fabTogglerState = 'active';
-    this.buttons = this.fabButtons;
-  }
-
-  hideItems() {
-    this.fabTogglerState = 'inactive';
-    this.buttons = [];
-  }
-index:number;
-prev:number=0;  
-onToggleFab(index) {
-   // console.log('called',this.prev,index);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      );
-    this.index =index;
-    // if(this.prev == 0 ){
-    //     this.prev == index;
-         
-    //       if(this.prev == this.index){
-    //         console.log('this is the case');
-           
-    //       }else{
-    //         this.prev = this.index;
-    //       }
-         
-    // }else{
-    //   if(this.prev == this.index){
-    //     console.log('this is the case1');
-        
-    //     this.showItems();
-    //   }else{
-    //     this.prev = this.index;
-    //   }
-    // }
-     
-    // this.s_buttons = !this.s_buttons;
-    // (this.tabaledata.indexOf(item) === index)?this.fabTogglerState ='active':this.fabTogglerState = 'inactive';
-        this.buttons.length ? this.hideItems() : this.showItems();
-  }
-  
-temp;
-  changeStyle($event){    
-    this.temp= ($event.type) == 'mouseover' ? 'yellow' : 'red';
-  }
-   //fAB BUTTONS RELATED FUNC
-} 
-
-function test1(){
 
 }

@@ -66,7 +66,11 @@ import {TooltipModule} from 'primeng/tooltip';
 import { SubcategoiresComponent } from './categories/sub-categories/subcategoires.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ComingsoonComponent } from './common/comingsoon/comingsoon.component';
+import { PaginationSettingsComponent } from './pagination-settings/pagination-settings.component';
+import { DataTablesModule } from 'angular-datatables';
+import { UiSettingsComponent } from './ui-settings/ui-settings.component';
  
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -84,8 +88,9 @@ import { ComingsoonComponent } from './common/comingsoon/comingsoon.component';
     CategoriesComponent,
     SubcategoiresComponent,
     DashboardComponent,
-    ComingsoonComponent
-     
+    ComingsoonComponent,
+    PaginationSettingsComponent,
+    UiSettingsComponent 
      
     
   ],
@@ -131,7 +136,8 @@ import { ComingsoonComponent } from './common/comingsoon/comingsoon.component';
     DropdownModule,
     InputSwitchModule,
     TooltipModule,
-     
+    DataTablesModule,
+    
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA,NO_ERRORS_SCHEMA ],
   providers: [UploadService,AuthGuard],

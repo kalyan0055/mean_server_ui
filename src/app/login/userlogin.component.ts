@@ -20,6 +20,7 @@ export class UserloginComponent implements OnInit {
   password_status = false;
   loginForm: FormGroup;
   hide = true;
+
   constructor(public router: Router,public Auth:AuthenticationService,public toaster: ToastrService,public US:UsersService) { }
 
   ngOnInit() {

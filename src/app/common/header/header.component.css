@@ -6,30 +6,4 @@
  /*
   * Actual Sticky Footer Styles
   */
- .all-wrap {
-   min-height: 100vh;
- }
-  
- .page-wrap {
-   display: flex;
-   flex-direction: column;
-    
- }
-  
- .content {
-   flex: 1;
- }
-  
-  
- /*
-  * Make the Component injected by Router Outlet full height:
-  */
- main {
-   display: flex;
-   flex-direction: column;
-   
- }
-
- .bg-dark{
-    background-color: #4181c1!important;
- }
+ 

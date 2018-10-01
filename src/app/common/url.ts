@@ -53,5 +53,11 @@ export class Url {
         UPDATE_SUB_CATEGORIES:environment.url+'createMainCategory/update',//Update Main/Sub Categoires without file
             //Sub Categories
         SUB_CATEGORIES1_LIST : environment.url + 'querySubCategories1',
+
+
+        //UI SETTINGS
+        SAVE_RECORDS_PER_PAGE :environment.url + 'settings_new',
+        GET_UI_Settings:environment.url + 'settings_new',
+        GET_UI_Settings_ajax:environment.url + 'settings_list',
 }   
 }

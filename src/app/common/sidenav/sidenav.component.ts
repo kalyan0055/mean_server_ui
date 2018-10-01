@@ -29,6 +29,7 @@ export class SidenavComponent implements OnInit {
     if(type ==='dashboard'){
       this.CS.selectd_page='';
     }else{
+      this.selectedpage.emit(type);
       this.router.navigate(['/dashboard/'+type]);
      }
 }

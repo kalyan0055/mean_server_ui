@@ -12,7 +12,7 @@
     <a><i class="ITB-icons email-icon"></i></a>
     <a><span class="n-dot"></span><i class="ITB-icons bell-icon"></i></a>
     <a pTooltip ="Profile" [routerLink]="['/profile']" tooltipPosition="bottom"  class="d-none d-sm-block">SUPER ADMIN<i class="ITB-icons dnarrow-icon"></i> </a>
-    <a pTooltip ="Logout" tooltipPosition="bottom" (click)="logout()" ><span class="PP" style="background-image: url(images/pp-img.jpg);"></span></a>
+    <a pTooltip ="Logout" tooltipPosition="bottom" (click)="logout()" ><span class="PP" ></span></a>
     
   </div>
 </div> -->
@@ -24,27 +24,29 @@
 <div class="Ipage-content">
   <div class="IC-box">
     <div class="ICB-Headbar no-gutters row d-flex align-items-center">
-      <div class="col-5"><img src="assets/utility_images/user.png" style="padding-right: 10px;"> Users</div>
+      <div class="col-9"><img src="assets/utility_images/user.png" style="padding-right: 10px;"> Users</div>
       <!-- <div class="col-3 "></div> -->
-      <div class="col-4  ICB-SearchBar">
-        <img src="assets/utility_images/search2.png" style="padding-right: 5px;">
+
+
+      <!-- <div class="col-4  ICB-SearchBar">
+         <img src="assets/utility_images/search2.png">
         <input class="" placeholder="Search by any table elements" type="text" [(ngModel)]="filterQuery" autocomplete="off" name="filter">
-      </div>
+     </div> -->
       <div class="col-3 text-right">
-         <button style="min-width: 50px; height: 30px;background: #68686b;color: white;" (click)="reset_form()"  tooltipPosition="top" pTooltip="Add User" *ngIf="usertype == 'Admin' || usertype == 'Adminuser'"   class="float-right fmat-icon-button" data-toggle="modal"
-            data-target=".newuser"    data-backdrop="static" data-keyboard="false" >
-            <i class="fas fa-user"></i> Add
-          </button>
-        <div class="btn-group">
-         
-          <button type="button"   class="btn  dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-            aria-expanded="false">
-           {{selected_type}}
+        <button (click)="reset_form()" tooltipPosition="top" pTooltip="Add User" *ngIf="usertype == 'Admin' || usertype == 'Adminuser'"
+          class="float-right fmat-icon-button addUserBtn" data-toggle="modal" data-target=".newuser" data-backdrop="static"
+          data-keyboard="false">
+          <i class="fas fa-user"></i> Add
+        </button>
+        <div class="btn-group" *ngIf="usertype !='User' ">
+
+          <button type="button" class="btn  dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {{selected_type}}
           </button>
 
           <div class="dropdown-menu">
             <a class="dropdown-item" (click)="filterUsers('allusers')">All Users</a>
-            <a class="dropdown-item" (click)="filterUsers('Adminuser')">Admins</a>
+            <a class="dropdown-item" *ngIf="usertype !='Adminuser' " (click)="filterUsers('Adminuser')">Admins</a>
             <a class="dropdown-item" (click)="filterUsers('User')">Users</a>
           </div>
         </div>
@@ -66,132 +68,80 @@
               </div-->
       </div>
     </div>
-    
-    <div class="table-responsive">
-      <table class="table ICB-table" [mfData]="tabaledata | dataFilter : filterQuery" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage"
-        [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+    <br />
+    <div class="table-responsive"  >
+      <table datatable [dtOptions]="dtOptions" class="row-border hover">
         <thead>
-
-          <!-- <th scope="col">USER NAME</th>
-                <th scope="col">COMPANY NAME </th>
-                <th scope="col">BUS UNIT NAME   </th>
-                <th scope="col">LOCATION   </th>
-                <th scope="col">ACTIVITIES</th> 
-                <th scope="col"></th> -->
           <tr>
-
-            <th scope="col">
-              <mfDefaultSorter by="username">User Name </mfDefaultSorter>
-            </th>
-            <th scope="col">
-              <mfDefaultSorter by="email">Email </mfDefaultSorter>
-            </th>
-
-            <th scope="col">
-              <mfDefaultSorter by="mobile">Mobile </mfDefaultSorter>
-            </th>
-            <th scope="col">
-                <mfDefaultSorter by="userType">User Type </mfDefaultSorter>
-              </th>
-            <th scope="col">
-              <mfDefaultSorter by="status">Status </mfDefaultSorter>
-            </th>
-            <th scope="col">
-              <mfDefaultSorter by=""> </mfDefaultSorter>
-            </th>
-
+            <th>Name</th>
+            <th>E-Mail</th>
+            <th>Mobile</th>
+            <th>Status</th>
+            <th>Options</th>
           </tr>
-
         </thead>
-        <tbody>
-          <tr *ngFor="let t of mf.data; let i=index; let k=index;" [ngClass]="{'deletecolor':t.deleted,'inactive':t.disabled}"   >
-            <td tooltipPosition="top" pTooltip="{{(t.deleted==true)?'Deleted User':(t.disabled==true)?'Disabled User':'Active User'}}" ><span class="ICB-pp" style="background-image: url(assets/utility_images/pp-img.jpg);"></span>{{t.displayName}}</td>
-            <td tooltipPosition="top" pTooltip="{{(t.deleted==true)?'Deleted User':(t.disabled==true)?'Disabled User':'Active User'}}">{{t.email}}</td>
-            <td tooltipPosition="top" pTooltip="{{(t.deleted==true)?'Deleted User':(t.disabled==true)?'Disabled User':'Active User'}}">{{t.mobile}}</td>
-            <td tooltipPosition="top" pTooltip="{{(t.deleted==true)?'Deleted User':(t.disabled==true)?'Disabled User':'Active User'}}">{{(t.userType ==='Adminuser')?'Admin':t.userType}}</td>
-            <td tooltipPosition="top" pTooltip="{{(t.deleted==true)?'Deleted User':(t.disabled==true)?'Disabled User':'Active User'}}">{{t.status}}</td>
+        <tbody *ngIf="tabaledata?.length != 0 ">
+          <tr *ngFor="let t of tabaledata" [ngClass]="{'deletecolor':t.deleted,'inactive':t.disabled}">
+            <td>{{ t.displayName }}</td>
+            <td>{{ t.email }}</td>
+            <td>{{ t.mobile }}</td>
+            <td>{{ t.userType }}</td>
             <td valign="middle">
-
-
-              <!-- <div style="margin-bottom: -14px !important;"  *ngIf="index === k" [@speedDialStagger]="buttons.length"> 
-                        <button *ngFor="let btn of buttons" (click)="btn.edit(t)"
-                                mat-mini-fab
-                                class="fab-secondary"
-                                color="secondary"  pTooltip ={{btn.tooltip}}>
-                               
-                          <i class="material-icons">{{btn.icon}}</i>
-                        </button>
-                    
-                      </div>
-                    -->
               <div id="button">
-                <!-- <button mat-mini-fab class="fab-toggler" [@fabToggler]="{value: fabTogglerState}" (click)="onToggleFab(k);">
-                  <i class="material-icons">add</i>
-                </button> -->
                 <a href=""><img src="assets/utility_images/more-icon.png"> </a>
-                
-                <div id="two">
 
-                  <button *ngIf="!t.disabled && !t.deleted" tooltipPosition="top" pTooltip="Disable User" mat-mini-fab class="text fab-secondary" color="secondary"
-                    (click)="disable_popup(t,'disable')" data-toggle="modal" data-target=".disable"> <i class="material-icons">person</i>
+                <div id="two" [ngClass]="{'nomargin':t.deleted}">
+
+                  <button *ngIf="!t.disabled && !t.deleted" tooltipPosition="top" pTooltip="Disable User" mat-mini-fab
+                    class="text fab-secondary gridActionbtngap" color="secondary" (click)="disable_popup(t,'disable')"
+                    data-toggle="modal" data-target=".disable"> <i class="material-icons">person</i>
                   </button>
-                  <button *ngIf="t.disabled && !t.deleted" tooltipPosition="top" pTooltip="Enable User" mat-mini-fab class="text fab-secondary" color="secondary"
-                    (click)="disable_popup(t,'enable')" data-toggle="modal" data-target=".disable">
+                  <button *ngIf="t.disabled && !t.deleted" tooltipPosition="top" pTooltip="Enable User" mat-mini-fab
+                    class="text fab-secondary gridActionbtngap" color="secondary" (click)="disable_popup(t,'enable')"
+                    data-toggle="modal" data-target=".disable">
                     <i class="material-icons">person_add_disabled</i>
                   </button>
-                  <button *ngIf="t.resetPasswordToken && !t.deleted" mat-mini-fab class="text fab-secondary" color="secondary" tooltipPosition="top" pTooltip="Reset Password Request Sent"
-                    [ngClass]="{'unselectable':t.disabled}" (click)="reset_popup(t)" data-toggle="modal" data-target=".reset">
+                  <button *ngIf="t.resetPasswordToken && !t.deleted" mat-mini-fab class="text fab-secondary gridActionbtngap"
+                    color="secondary" tooltipPosition="top" pTooltip="Reset Password Request Sent" [ngClass]="{'unselectable':t.disabled}"
+                    (click)="reset_popup(t)" data-toggle="modal" data-target=".reset">
                     <i class="material-icons">lock</i>
                   </button>
-                  <button *ngIf="!t.resetPasswordToken && !t.deleted" mat-mini-fab class="fab-secondary" color="secondary" tooltipPosition="top" pTooltip="Reset Password Request"
-                    (click)="reset_popup(t)" data-toggle="modal" data-target=".reset" class="btn btn-sm btn-warning">
+                  <button *ngIf="!t.resetPasswordToken && !t.deleted" mat-mini-fab class="fab-secondary gridActionbtngap"
+                    color="secondary" tooltipPosition="top" pTooltip="Reset Password Request" (click)="reset_popup(t)"
+                    data-toggle="modal" data-target=".reset">
                     <i class="material-icons">lock_open</i>
                   </button>
-                  <button *ngIf="!t.deleted" tooltipPosition="top" pTooltip="Delete User"  (click)="delete_popup(t,'Delete')" data-toggle="modal" style="margin-right: 5px; margin-left: 5px;"
-                    data-target=".delete" mat-mini-fab class="fab-secondary" color="secondary">
+                  <button *ngIf="!t.deleted" tooltipPosition="top" pTooltip="Delete User" (click)="delete_popup(t,'Delete')"
+                    data-toggle="modal" data-target=".delete" mat-mini-fab class="fab-secondary gridActionbtngap" color="secondary">
                     <i class="material-icons">delete_outline</i>
                   </button>
-                  <button *ngIf="t.deleted" tooltipPosition="top" pTooltip="Restore User"  (click)="delete_popup(t,'Restore')" data-toggle="modal" style="margin-right: 5px; margin-left: 5px;"
-                    data-target=".delete" mat-mini-fab class="fab-secondary" color="secondary">
+                  <button *ngIf="t.deleted" tooltipPosition="top" pTooltip="Restore User" (click)="delete_popup(t,'Restore')"
+                    data-toggle="modal" data-target=".delete" mat-mini-fab class="fab-secondary" color="secondary">
                     <i class="material-icons">replay</i>
                   </button>
-                  <button *ngIf="!t.deleted" tooltipPosition="top" pTooltip="Edit User" (click)="edit_visible(t)" data-toggle="modal" data-target=".edit" mat-mini-fab
-                    class="fab-secondary" color="secondary">
+                  <button *ngIf="!t.deleted" tooltipPosition="top" pTooltip="Edit User" (click)="edit_visible(t)"
+                    data-toggle="modal" data-target=".edit" mat-mini-fab class="fab-secondary gridActionbtngap" color="secondary">
                     <i class="material-icons">create</i>
                   </button>
                 </div>
 
               </div>
-
-
             </td>
           </tr>
         </tbody>
-        <tbody *ngIf="loading">
+        <tbody *ngIf="tabaledata?.length == 0">
           <tr>
-            <td class="text-center" colspan="6">
-              <i class="fa fa-spinner fa-spin fa-2x"></i>
-            </td>
+            <td colspan="3" class="no-data-available">No data!</td>
           </tr>
-        </tbody>
-        <tfoot *ngIf="mf.data.length != 0 " id="tfooter">
-          <tr>
-            <td colspan="6" style="margin-top:-48px">
-               
-              <mfBootstrapPaginator    [rowsOnPageSet]="[10,15,25,50]" ></mfBootstrapPaginator>
-             
-
-            </td>
-          </tr>
-        </tfoot>
+        <tbody>
       </table>
-
     </div>
   </div>
 </div>
 
 
-<div class="modal fade delete" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade delete" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content" *ngIf="delete_Data">
       <div class="modal-header">
@@ -202,20 +152,22 @@
       </div>
       <div class="modal-body">
         <p>Are Sure you want to {{del_pop_msg}} this User ...
-          <span style="color: red">{{delete_Data.email }}</span>
+          <span>{{delete_Data.email }}</span>
         </p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
         <button *ngIf="del_pop_msg === 'Delete'" type="button" (click)="delete(delete_Data)" data-dismiss="modal" class="btn btn-primary">Yes</button>
-        <button  *ngIf="del_pop_msg === 'Restore'" type="button" (click)="restore(delete_Data)" data-dismiss="modal" class="btn btn-primary">Yes</button>
-     
+        <button *ngIf="del_pop_msg === 'Restore'" type="button" (click)="restore(delete_Data)" data-dismiss="modal"
+          class="btn btn-primary">Yes</button>
+
       </div>
     </div>
   </div>
 </div>
 
-<div class="modal fade edit" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade edit" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content" *ngIf="update_status">
       <div class="modal-header">
@@ -254,7 +206,8 @@
                   </div>
                   <div class="col-md-3">
                     <mat-form-field>
-                      <input matInput placeholder="mobile" minlength="10" maxlength="10" type="text" formControlName="mobile" required onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode == 46 ">
+                      <input matInput placeholder="mobile" minlength="10" maxlength="10" type="text" formControlName="mobile"
+                        required onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode == 46 ">
                       <mat-error *ngIf="profile.controls['mobile'].hasError('required')"> Mobile is required</mat-error>
                       <!-- <mat-error *ngIf="mobile.errors.pattern"> Mobile is required</mat-error> -->
                       <mat-error *ngIf="profile.controls['mobile'].hasError('pattern')"> In Valid Mobile Number</mat-error>
@@ -265,7 +218,8 @@
                 <br>
                 <div class="row">
                   <div class="col-md-7">
-                    <button type="submit" data-dismiss="modal" (click)="updatePrfile()" class="float-right btn btn-primary" [disabled]="!profile.valid">Save</button>
+                    <button type="submit" data-dismiss="modal" (click)="updatePrfile()" class="float-right btn btn-primary"
+                      [disabled]="!profile.valid">Save</button>
                   </div>
                 </div>
               </form>
@@ -288,7 +242,8 @@
 <!-- Register Form POPUP-->
 <button id="delete" [hidden]="true" data-toggle="modal" data-target=".delete">Open Modal</button>
 
-<div class="modal fade disable" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade disable" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content" *ngIf="disable_Data">
       <div class="modal-header">
@@ -299,7 +254,7 @@
       </div>
       <div class="modal-body">
         <p>Are Sure you want to {{(type === 'disable')?'Disable':'Enable'}} this User ...
-          <span style="color: red">{{disable_Data.email }}</span>
+          <span>{{disable_Data.email }}</span>
         </p>
       </div>
       <div class="modal-footer">
@@ -313,7 +268,8 @@
 
 <!-- Delete POPUP-->
 
-<div class="modal fade delete" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade delete" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content" *ngIf="delete_Data">
       <div class="modal-header">
@@ -324,7 +280,7 @@
       </div>
       <div class="modal-body">
         <p>Are Sure you want to Delete this User ...
-          <span style="color: red">{{delete_Data.email }}</span>
+          <span>{{delete_Data.email }}</span>
         </p>
       </div>
       <div class="modal-footer">
@@ -337,7 +293,8 @@
 <!-- </div> -->
 
 <!-- Reset popup -->
-<div class="modal fade reset" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade reset" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content" *ngIf="reset_Data">
       <div class="modal-header">
@@ -348,7 +305,7 @@
       </div>
       <div class="modal-body">
         <p>Are Sure you want to Reset this User's Password ...
-          <span style="color: red">{{reset_Data.email }}</span>
+          <span>{{reset_Data.email }}</span>
         </p>
       </div>
       <div class="modal-footer">
@@ -362,7 +319,8 @@
 <!-->Reset popup End -->
 
 
-<div class="modal fade newuser" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade newuser" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -372,7 +330,7 @@
         </button>
       </div>
       <div class="modal-body">
-        
+
         <form method="POST" [formGroup]="REG_FORM1">
           <div class="example-container1">
             <mat-form-field>
@@ -386,10 +344,10 @@
             </div>
             <!-- <input type="button" mat-raised-button type="submit" data-dismiss="modal" (click)="nvi_onSubmit()" class="float-right btn btn-primary"
               [disabled]="!REG_FORM1.valid || (!test)" color="accent"> -->
-              <input type="button" mat-raised-button type="submit" data-dismiss="modal" (click)="findUser()" class="float-right btn btn-primary"
+            <input type="button" mat-raised-button type="submit" data-dismiss="modal" (click)="findUser()" class="float-right btn btn-primary"
               [disabled]="!REG_FORM1.valid || (!test)" color="accent">
-          </div>  
-          <br/>
+          </div>
+          <br />
 
         </form>
 
